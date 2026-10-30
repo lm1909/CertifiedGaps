@@ -13,8 +13,9 @@ term is $o = -g(X \otimes 1 + 1 \otimes X)$. Neither is reflection positive in t
 In the cell frame $U = (H \otimes H)\,\mathrm{CS}$, with $\mathrm{CS} = \mathrm{diag}(1, 1, 1, i)$
 ($H \otimes H$ has entries $\pm 1/2$, so $U$ has exact Gaussian-rational entries), the rotated
 on-site term is real symmetric. The core `rp_certificate` (exact rational LDL†) then factors
-the realigned bond. A screening run also tried $\mathrm{CS}(H \otimes H)$, $\mathrm{CZ}$ variants,
-$H \otimes H$ and the identity, and all of them fail.
+the realigned bond. A screening run found that $(H \otimes H)\,\mathrm{CS}^\dagger$ works as well, while
+$\mathrm{CS}(H \otimes H)$, $\mathrm{CS}^\dagger(H \otimes H)$, $\mathrm{CZ}(H \otimes H)$, $(H \otimes H)\,\mathrm{CZ}$,
+$\mathrm{CS}$, $H \otimes H$ and the identity fail.
 
 ## Candidate routes
 
@@ -25,9 +26,9 @@ $H \otimes H$ and the identity, and all of them fail.
    $`\varepsilon_k = 2\sqrt{1 + g^2 - 2g\cos 2k}`$, with Neveu–Schwarz momenta on even parity and
    Ramond momenta on odd parity:
    $`Z_N = \frac12[\prod_{\mathrm{NS}} 2\cosh + \prod_{\mathrm{NS}} 2\sinh + \prod_{\mathrm{R}} 2\cosh - \prod_{\mathrm{R}} 2\sinh]`$.
-   On even rings the modes with a signed energy come in pairs ($k = 0, \pi$, and $k = \pm\pi/2$),
-   so their signs cancel in the $\sinh$ products and the unsigned roots can be used for every
-   $g \ne 1$. A floating-point prototype matched dense ED at $N = 4, 6, 8, 10$ for $g = 1/2$ and
+   On even rings the Ramond modes $k = 0, \pi$ share the signed energy $2(g - 1)$, so their signs
+   cancel in the $\sinh$ product, and the unsigned roots can be used for every $g \ne 1$ (the ED
+   check below fixes these conventions). A floating-point prototype matched dense ED at $N = 4, 6, 8, 10$ for $g = 1/2$ and
    $g = 2$ to $10^{-14}$. The frame change $U$ does not change $Z$. Cost: linear in $N$.
 
 ## Choice
