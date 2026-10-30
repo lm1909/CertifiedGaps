@@ -576,7 +576,8 @@ records:
     method: 'core pipeline from verified spectra of the 2-, 4- and 8-rung rings'
     notes: >-
       A perturbation bound around $J_\perp = 13/4$ extends the result to $|J_\perp - 13/4| \le
-      10^{-4}$, with $\Delta_L \ge 0.592611834$.
+      10^{-4}$, with $\Delta_L \ge 0.592611834$. The numerical gap is the 8-rung ring (16 spins),
+      exact diagonalization.
   - id: ladder-Jperp-11-4
     family: heisenberg-ladder
     parameter: '$J_\perp = 11/4$'
