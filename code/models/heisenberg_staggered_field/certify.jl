@@ -2,7 +2,7 @@
 # (src/common.jl), `GapCertificates.certify_point` on the one-site rotated-frame model at
 # (n₀, β₀) = (8, β₀), with the seed spectra split by the two-site U(1) cell charge `BLOCKING`.
 # Writes results/certificate_<h>.json and results/summary.json.
-#     julia --project=julia models/heisenberg_staggered_field/certify.jl [h]   (default: all eight)
+#     julia --project=julia models/heisenberg_staggered_field/certify.jl [h]   (default: all nine)
 include(joinpath(@__DIR__, "src", "common.jl"))
 fields = isempty(ARGS) ? FIELDS : [parse_rational(ARGS[1])]
 for h in fields
