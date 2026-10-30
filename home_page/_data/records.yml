@@ -1132,31 +1132,58 @@ records:
     history:
       - {date: "2026-10-12", decimal: "3.491169", lengths: 'even L ≥ 6', tier: certified, pr: 5,
          method: 'an earlier computation from the same seed'}
-  # ---------------------------------------------------------------- open targets (estimates only)
-  - id: target-tfim-g-2
+  - id: ising-g-2-h-0
     family: ising-longitudinal
     parameter: '$g = 2,\ h = 0$'
     params: {g: "2", h: "0"}
-    estimate: {n0: "128", beta0: "32", float_bound: "1.885", text: 'Free fermions; reflection positive in the $\sigma^z$ basis'}
+    lengths: {L0: 128}
+    bound: {value: "4321152898597103/2251799813685248", decimal: "1.918977"}
+    seed: {n0: 128, beta0: "175/4", text: 'Free-fermion closed form for $Z_L$ in 512-bit interval arithmetic'}
     numerical_gap: "2"
     gap_source: 'exact (free fermions)'
-    tier: target
-  - id: target-tfim-g-5-4
+    tier: certified
+    method: 'free-fermion closed form, interval arithmetic'
+    certificate: data/models/tfim_free_fermions/certificate_g2_1.json.gz
+    check: code/models/tfim_free_fermions/check.jl
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    notes: 'Floating-point survey estimate before certification: 1.885 at $(n_0, \beta_0) = (128, 32)$'
+  - id: ising-g-5-4-h-0
     family: ising-longitudinal
     parameter: '$g = 5/4,\ h = 0$'
     params: {g: "5/4", h: "0"}
-    estimate: {n0: "144", beta0: "64", float_bound: "0.451", text: 'Reflection positive in the $\sigma^z$ basis'}
+    lengths: {L0: 144}
+    bound: {value: "2032396943107871/4503599627370496", decimal: "0.451282"}
+    seed: {n0: 144, beta0: "63", text: 'Free-fermion closed form for $Z_L$ in 512-bit interval arithmetic'}
     numerical_gap: "0.5"
     gap_source: 'exact (free fermions)'
-    tier: target
-  - id: target-tfim-g-11-10
+    tier: certified
+    method: 'free-fermion closed form, interval arithmetic'
+    certificate: data/models/tfim_free_fermions/certificate_g5_4.json.gz
+    check: code/models/tfim_free_fermions/check.jl
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    notes: 'Floating-point survey estimate before certification: 0.451 at $(144, 64)$'
+  - id: ising-g-11-10-h-0
     family: ising-longitudinal
     parameter: '$g = 11/10,\ h = 0$'
     params: {g: "11/10", h: "0"}
-    estimate: {n0: "384", beta0: "161", float_bound: "0.178", text: 'Reflection positive in the $\sigma^z$ basis'}
+    lengths: {L0: 384}
+    bound: {value: "3289328394981203/18014398509481984", decimal: "0.182594"}
+    seed: {n0: 384, beta0: "359/2", text: 'Free-fermion closed form for $Z_L$ in 512-bit interval arithmetic'}
     numerical_gap: "0.2"
     gap_source: 'exact (free fermions)'
-    tier: target
+    tier: certified
+    method: 'free-fermion closed form, interval arithmetic'
+    certificate: data/models/tfim_free_fermions/certificate_g11_10.json.gz
+    check: code/models/tfim_free_fermions/check.jl
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    notes: 'Floating-point survey estimate before certification: 0.178 at $(384, 161)$'
+  # ---------------------------------------------------------------- open targets (estimates only)
   - id: target-cluster-g-1-2
     family: cluster
     parameter: '$g = 1/2$'
