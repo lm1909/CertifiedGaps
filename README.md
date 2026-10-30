@@ -36,6 +36,7 @@ and each model's `README.md` list every parameter point, seed, and Lean 4 theore
 | Transverse- and longitudinal-field Ising chain | 30 | $4.5202$, at $g = 3/4, h = 1$ | even $L \ge 6$ | [`code/models/tfim_longitudinal`](code/models/tfim_longitudinal/) |
 | Transverse-field Ising chain (free fermions, $h = 0$) | 3 | $1.9189$, at $g = 2$ | even $L \ge 128$ (at $g = 2$) | [`code/models/tfim_free_fermions`](code/models/tfim_free_fermions/) |
 | XY chain in a field ($J_x J_y < 0$, free fermions) | 3 | $1.8649$, at $J_x = -1, J_y = 1, h = 1$ | even $L \ge 128$ | [`code/models/xy_field`](code/models/xy_field/) |
+| Cluster chain in a transverse field (free fermions) | 1 | $0.9515$, at $g = 1/2$ | even $L \ge 128$ cells | [`code/models/cluster_chain`](code/models/cluster_chain/) |
 | Spin-½ Heisenberg chain in a staggered field | 5 | $1.1489$, at $h = 1$ | even $L \ge 8$ | [`code/models/heisenberg_staggered_field`](code/models/heisenberg_staggered_field/) |
 | Spin-½ dimerized Heisenberg chain | 3 | $0.5347$, at $\delta = 1/2$ | even $L \ge 4$ | [`code/models/dimerized_heisenberg`](code/models/dimerized_heisenberg/) |
 | Spin-1 dimerized Heisenberg chain | 2 | $0.5288$, at $\delta = 9/10$ | even $L \ge 2$ | [`code/models/spin1_dimerized`](code/models/spin1_dimerized/) |

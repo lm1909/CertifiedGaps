@@ -259,5 +259,4 @@ from a prior survey for models that do not yet have a certificate:
 
 | model | RP basis | estimated seed $(n_0, \beta_0)$ | float bound | exact gap |
 |---|---|---|---|---|
-| cluster $-\sum ZXZ - g\sum X$, $g = 0.5$ (2-site cells) | cell basis $\mathrm{CS}(H \otimes H)$ | $(128, 64)$ cells | $0.932$ | $1$ |
 | spin-1 bilinear–biquadratic $\theta = -0.1$ | Cartesian | $\approx (34, 31)$ estimated | $\approx 0.107$ | $\approx 0.338$ |
