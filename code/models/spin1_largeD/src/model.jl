@@ -65,8 +65,12 @@ end
 "Seed length (sites) of every stage-1 point."
 const N0 = 6
 
-"The stage-1 points: exact D and the seed inverse temperature β₀ (as in the Lean file)."
-const POINTS = [(D = 4 // 1, beta0 = 9 // 4), (D = 1603 // 500, beta0 = 381 // 125)]
+"The stage-1 points: exact D and the seed inverse temperature β₀ (the first two as in the Lean
+file; D = 7/2 has no Lean entry). At D = 7/2 the scan's best seed β₀ = 21/8 is inadmissible once
+the defects are rounded up, so the certified seed is the best admissible one on a 1/128 grid,
+β₀ = 335/128."
+const POINTS = [(D = 4 // 1, beta0 = 9 // 4), (D = 1603 // 500, beta0 = 381 // 125),
+    (D = 7 // 2, beta0 = 335 // 128)]
 
 "The Lean theorem whose seed hypotheses (`lean_points`) the stage-1 certificates discharge."
 const LEAN_FILE = joinpath(dirname(@__DIR__), "..", "..", "lean", "CertifiedGaps", "Models",

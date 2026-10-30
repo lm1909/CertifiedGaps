@@ -1,4 +1,4 @@
-# Stage 1: core gap certificates (GapCertificates.certify_point) at the two points of `POINTS`
+# Stage 1: core gap certificates (GapCertificates.certify_point) at the points of `POINTS`
 # with seed length n0 = 6, and the verified spectra of the rings L = 6, 12 that stage 2
 # (scripts/transfer_certify.jl) reuses. Writes results/certificate_D*.json and
 # results/spectrum_D*_L{6,12}.json.gz (their SHA-256 recorded in the certificate).

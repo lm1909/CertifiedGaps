@@ -6,7 +6,7 @@
             "D": "4//1",
             "L": "8",
             "gap_lower": "568481//250000",
-            "seconds": 0.06682196099999997
+            "seconds": 0.048117447999999986
         },
         {
             "blocks": "67",
@@ -14,15 +14,15 @@
             "D": "4//1",
             "L": "10",
             "gap_lower": "454047//200000",
-            "seconds": 7.366249583999999
+            "seconds": 5.6157316690000005
         }
     ],
     "metadata": {
         "source_sha256": {
-            "models/spin1_largeD/check.jl": "7a7127a6a92874cb462887ddb9a3f163d418ed85032ecc4f55f2c407acc5c675",
-            "models/spin1_largeD/scripts/transfer_certify.jl": "f5fd1811fd7ce07f26dd37f28cf579b3c9e1beaa1172c9c31b09d9f22006762a",
-            "models/spin1_largeD/src/TransferCertificate.jl": "99793311baa5c71904e7df137d9875a2c53d32360c617efddc852b1573790570",
-            "models/spin1_largeD/src/model.jl": "a1103fa391a8809a792716bf713c2d67b245e9aded441474907c5174534f6b85"
+            "models/spin1_largeD/check.jl": "408b4f29c395ab3053fb37f753ae34fa424f0ef5afbd6c0caaafc255c1535db8",
+            "models/spin1_largeD/scripts/transfer_certify.jl": "e0bb121f27e70263dc037f3875888d0029f3c616e3d842f6002a16f663b25865",
+            "models/spin1_largeD/src/TransferCertificate.jl": "1778445cb129f3fab3a8702131ffd8342b44ade12d7a1e72338d3adc0c701e8e",
+            "models/spin1_largeD/src/model.jl": "ca92d8213523ef82ec779468e7542a255100752f41c3f6f6a4cf76a63474bccb"
         },
         "core_sha256": {
             "julia/src/ExactDiagonalization.jl": "521e0b95085eb898e62fd37a09342bb4d3ad5b8a010e5ee3f8290d07cee1805a",
@@ -31,7 +31,7 @@
             "julia/src/RingModels.jl": "40bc01631c1f32b56436f13b4edc3b6572198724e8b4ca09939741003cd2bacd",
             "julia/src/Seeds.jl": "3e2d5041103c7e6629f7a31a76ef381f9fcd40566b7872460793edfe433387d4",
             "julia/src/recurrence/map.jl": "bcd8ed97ed6701d6b030a8d834207b29276542993d1cb7f30d503bf430e43f61",
-            "julia/src/VerifiedSpectra.jl": "d2d939818290005048fa18accb1d4688d36e73f5ae54c2d4e97e55706384802d",
+            "julia/src/VerifiedSpectra.jl": "299641ec58b4f6aae2e69e636135db1559adb8635a8aaba919bced500e47349f",
             "julia/src/CertifiedMPO/GaugeSearch.jl": "96d9fcdcf031b5b84c502a7582ae5715022752276d3385db724143477b2eb4f5",
             "julia/src/CertifiedMPO/CertifiedMPO.jl": "1d57e931d6929a3fd143201862c2f079008f9b7fd8288f7b95b0c17e536ef9e0",
             "julia/src/CertifiedMPO/SchattenBridge.jl": "2300c4f86790906274adf9d50ac8bd43a7ef1ccbfc49e4a9aaafbbe2addc290f",
@@ -63,11 +63,11 @@
         "config": {
             "D": "4//1"
         },
-        "created_utc": "2026-10-18T06:48:03.367",
+        "created_utc": "2026-10-30T20:26:21.579",
         "julia_threads": 1,
-        "julia": "1.12.4",
+        "julia": "1.12.7",
         "IntervalArithmetic": "1.0.12",
         "CertifiedGaps": "0.2.0"
     },
-    "wall_seconds": 11.559861898422241
+    "wall_seconds": 9.115254878997803
 }

@@ -45,9 +45,12 @@ Stage 2 (the transfer-squaring and Weyl-transport extensions), followed by their
 ## Outcome
 
 - **Stage-1 ED seeds ($n_0 = 6$):** Complete verified $L = 6, 12$ spectra certify $D = 4$
-  ($\Delta_L \ge 0.694746580$ at $\beta_0 = 9/4$) and $D = 1603/500 = 3.206$
-  ($\Delta_L \ge 0.002752708$ at $\beta_0 = 381/125$) for all even $L \ge 6$. On the exploratory
-  grid, $D \le 3.205$ has no admissible even seed at $n_0 \le 6$.
+  ($\Delta_L \ge 0.694746580$ at $\beta_0 = 9/4$), $D = 1603/500 = 3.206$
+  ($\Delta_L \ge 0.002752708$ at $\beta_0 = 381/125$), and $D = 7/2$
+  ($\Delta_L \ge 0.323284725$ at $\beta_0 = 335/128$, added 2026-10-30; the scan-best $\beta_0 =
+  21/8$ is inadmissible after the defects are rounded up, so the certified seed is the best
+  admissible one on a $1/128$ grid) for all even $L \ge 6$. On the
+  exploratory grid, $D \le 3.205$ has no admissible even seed at $n_0 \le 6$.
 - **Stage-2 transfer squaring ($n_0 = 12, \dots, 96$):** At $D = 4$, lifting from $L = 6, 12$ to a
   seed at $(n_0, \beta_0) = (12, 29/10)$ without constructing $L = 24$ raises the certified uniform
   gap bound from $0.694746846$ to **$0.899422250$** for all even $L \ge 12$, and verified spectra at

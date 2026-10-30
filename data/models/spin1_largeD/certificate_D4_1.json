@@ -343,7 +343,7 @@
         ],
         "even_length_threshold": 6
     },
-    "interval_bound_decimal": 0.6947468468809735,
+    "interval_bound_decimal": 0.6947468468809729,
     "params": {
         "D": "4"
     },
@@ -351,7 +351,7 @@
     "claim": "every even ring length L >= n0 has a unique ground state and spectral gap > gap_lower_bound",
     "format": "CertifiedGaps ring gap certificate v1",
     "gap_lower_bound": "694042913//1000000000",
-    "spectrum_seconds": 3054.34835725,
+    "spectrum_seconds": 0,
     "reflection_positivity": {
         "factors": [
             {
@@ -457,8 +457,8 @@
     },
     "metadata": {
         "source_sha256": {
-            "models/spin1_largeD/src/model.jl": "a1103fa391a8809a792716bf713c2d67b245e9aded441474907c5174534f6b85",
-            "models/spin1_largeD/certify.jl": "571c8733f5df4c5555ed96881fdc10abeb0771b275e9abd559af45299755e8e9"
+            "models/spin1_largeD/src/model.jl": "ca92d8213523ef82ec779468e7542a255100752f41c3f6f6a4cf76a63474bccb",
+            "models/spin1_largeD/certify.jl": "25e608ef064c66a446719baafafe1b317136e5196457fefe7e8020a7875724d5"
         },
         "core_sha256": {
             "julia/src/ExactDiagonalization.jl": "521e0b95085eb898e62fd37a09342bb4d3ad5b8a010e5ee3f8290d07cee1805a",
@@ -467,7 +467,7 @@
             "julia/src/RingModels.jl": "40bc01631c1f32b56436f13b4edc3b6572198724e8b4ca09939741003cd2bacd",
             "julia/src/Seeds.jl": "3e2d5041103c7e6629f7a31a76ef381f9fcd40566b7872460793edfe433387d4",
             "julia/src/recurrence/map.jl": "bcd8ed97ed6701d6b030a8d834207b29276542993d1cb7f30d503bf430e43f61",
-            "julia/src/VerifiedSpectra.jl": "d2d939818290005048fa18accb1d4688d36e73f5ae54c2d4e97e55706384802d",
+            "julia/src/VerifiedSpectra.jl": "299641ec58b4f6aae2e69e636135db1559adb8635a8aaba919bced500e47349f",
             "julia/src/CertifiedMPO/GaugeSearch.jl": "96d9fcdcf031b5b84c502a7582ae5715022752276d3385db724143477b2eb4f5",
             "julia/src/CertifiedMPO/CertifiedMPO.jl": "1d57e931d6929a3fd143201862c2f079008f9b7fd8288f7b95b0c17e536ef9e0",
             "julia/src/CertifiedMPO/SchattenBridge.jl": "2300c4f86790906274adf9d50ac8bd43a7ef1ccbfc49e4a9aaafbbe2addc290f",
@@ -499,12 +499,12 @@
         "config": {
             "n0": 6,
             "D": "4",
-            "seconds": 1.616531583,
+            "seconds": 1.422331377,
             "beta0": "9//4"
         },
-        "created_utc": "2026-10-18T06:46:27.603",
+        "created_utc": "2026-10-30T20:07:29.038",
         "julia_threads": 1,
-        "julia": "1.12.4",
+        "julia": "1.12.7",
         "IntervalArithmetic": "1.0.12",
         "CertifiedGaps": "0.2.0"
     }

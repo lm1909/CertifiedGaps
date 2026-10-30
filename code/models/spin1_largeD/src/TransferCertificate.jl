@@ -37,6 +37,8 @@ claims stay comparable; `scripts/transfer_certify.jl` reports by bisection how f
 enclosures would reach (a diagnostic only).
 """
 const TRANSPORT_LO = Dict(4 // 1 => 39979773 // 10000000, 1603 // 500 => 16029999 // 5000000)
+"Stage-1 points that stage 2 re-certifies and transports: those with a fixed transported interval."
+const TRANSFER_POINTS = [p for p in POINTS if haskey(TRANSPORT_LO, p.D)]
 exact(x) = string(Q(x))
 endpoints(x) = [exact(inf(x)), exact(sup(x))]
 upper(x) = box(max(0, sup(x)))

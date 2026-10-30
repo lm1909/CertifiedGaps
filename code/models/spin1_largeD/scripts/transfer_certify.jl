@@ -35,7 +35,7 @@ D the transport would still succeed (diagnostic); write `results/certificate.jso
 function certify_transfer()
     started = time()
     records, diagnostics = Any[], Any[]
-    for (D, beta0) in TC.POINTS
+    for (D, beta0) in TC.TRANSFER_POINTS
         a, b = TC.reference_spectrum(D, 6), TC.reference_spectrum(D, 12)
         direct = only(TC.evaluate(a, b, beta0; max_lifts = 0))
         push!(records, TC.record(direct, b, "reference-D$D"))

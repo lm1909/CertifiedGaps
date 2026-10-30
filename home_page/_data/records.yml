@@ -452,7 +452,7 @@ records:
     parameter: '$D = 1603/500$'
     params: {D: "1603/500"}
     lengths: {L0: 6}
-    bound: {value: "6351211452023385/2305843009213693952", decimal: "0.002754398"}
+    bound: {value: "6351211452015513/2305843009213693952", decimal: "0.002754398"}
     seed: {n0: 6, beta0: "381/125"}
     numerical_gap: "1.54533"
     tier: certified
@@ -462,14 +462,31 @@ records:
     pr: 81
     contributors: ['LionSR']
     history:
+      - {date: "2026-10-18", decimal: "0.002754398", lengths: 'even L ≥ 6', tier: certified, pr: 81,
+         method: 'the same bound regenerated on aarch64-linux; the exact interval value moved down by less than 10^-15 (a platform difference in certified_gap_bound), the decimal is unchanged'}
       - {date: "2026-10-12", decimal: "0.002213465", lengths: 'even L ≥ 6', tier: certified, pr: 7,
          method: 'an earlier computation from the same seed'}
+  - id: spin1-largeD-D-7-2
+    family: spin1-largeD
+    parameter: '$D = 7/2$'
+    params: {D: "7/2"}
+    lengths: {L0: 6}
+    bound: {value: "5823779871219897/18014398509481984", decimal: "0.323284"}
+    seed: {n0: 6, beta0: "335/128", text: 'The scan-best seed β₀ = 21/8 is inadmissible once the defects are rounded up; 335/128 is the best admissible seed on a 1/128 grid'}
+    numerical_gap: "1.80954"
+    tier: certified
+    certificate: data/models/spin1_largeD/certificate_D7_2.json
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    notes: >-
+      No Lean theorem lists this point; the certificate is checked without Lean seed hypotheses.
   - id: spin1-largeD-D-interval-3206
     family: spin1-largeD
     parameter: '$D \in [3.2059998, 3.206]$'
     params: {D_min: "16029999/5000000", D_max: "1603/500"}
     lengths: {L0: 6}
-    bound: {value: "4205233392968261/2305843009213693952", decimal: "0.001823729"}
+    bound: {value: "8410466785926979/4611686018427387904", decimal: "0.001823729"}
     seed: {n0: 6, beta0: "381/125", text: 'The whole interval follows from a Weyl–Duhamel perturbation bound around $D = 1603/500$, where the estimate is taken'}
     numerical_gap: "1.54533"
     tier: certified
@@ -479,6 +496,8 @@ records:
     pr: 81
     contributors: ['LionSR']
     history:
+      - {date: "2026-10-18", decimal: "0.001823729", lengths: 'even L ≥ 6', tier: certified, pr: 81,
+         method: 'the same bound regenerated on aarch64-linux; the exact interval value moved down by less than 10^-15 (a platform difference in certified_gap_bound), the decimal is unchanged'}
       - {date: "2026-10-15", decimal: "0.001001626", lengths: 'even L ≥ 6', tier: certified, pr: 12,
          method: 'an earlier computation from the same seed'}
   - id: spin1-largeD-D-interval-4

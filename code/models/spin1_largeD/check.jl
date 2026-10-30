@@ -4,9 +4,10 @@
 #   OPENBLAS_NUM_THREADS=1 julia --project=julia models/spin1_largeD/check.jl --full
 #
 # Stage 1: each results/certificate_D*.json is checked by GapCertificates.check_point against its
-# point (model, RP data, seed, params, stage-1 source hashes, the Lean seed hypotheses) and its
-# exact chain is replayed. The fast check then recomputes log Z and the seed defects from the
-# stored, hash-pinned verified spectra that stage 2 reads, and rebuilds the L = 6 spectra from the
+# point (model, RP data, seed, params, stage-1 source hashes, and the Lean seed hypotheses for the
+# points the Lean file lists) and its exact chain is replayed. The fast check then recomputes
+# log Z and the seed defects from the stored, hash-pinned verified spectra that stage 2 reads,
+# and rebuilds the L = 6 spectra from the
 # model. Stage 2: TransferCertificate.check_certificate replays results/certificate.json from the
 # same spectra and recomputes the L = 8, 10 bridge. `--full` re-verifies the L = 6 and L = 12
 # spectra of both points from scratch (check_point with spectra = true).
@@ -22,14 +23,16 @@ const FULL = "--full" in ARGS
 
 @testset "Stage 1: core certificates at n0 = 6" begin
     lean = Dict(p.params[1] => p for p in lean_points(LEAN_FILE))
-    @test sort(collect(keys(lean))) == sort([p.D for p in POINTS])
+    # Points without a Lean seed hypothesis (currently D = 7/2) are checked without one.
+    @test sort(collect(keys(lean))) == sort([p.D for p in POINTS if haskey(lean, p.D)])
     for (D, beta0) in POINTS
         model = ring_model(D)
-        @test lean[D].params == [D, beta0]
+        leanpoint = get(lean, D, nothing)
+        leanpoint === nothing || @test leanpoint.params == [D, beta0]
         path = joinpath(TC.ROOT, certificate_file(D))
         seconds = @elapsed recomputed = check_point(path, model; n0 = N0, β0 = beta0,
             params = Dict("D" => D), model_dir = TC.ROOT, sources = STAGE1_SOURCES,
-            rp = rp_data(model), lean = lean[D], spectra = FULL)
+            rp = rp_data(model), lean = leanpoint, spectra = FULL)
         cert = read_exact_json(path)
         @test recomputed["gap_lower_bound"] == cert["gap_lower_bound"]
         # Stage 2 reads the stored spectra (hash-checked by reference_spectrum), so they must

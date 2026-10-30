@@ -12,6 +12,7 @@ $\Delta_L \ge \Delta_{\mathrm{cert}}$ for every even $L \ge 6$ sites. Decimal bo
 | Single-ion anisotropy $D$ | Seed $(n_0, \beta_0)$ | Certified gap $\Delta_L \ge$ | Lengths covered |
 |---|---|---:|---|
 | $4$ | $(12, 29/10)$ + finite bridge at $L = 6, 8, 10$ | **$0.899422250$** | every even $L \ge 6$ sites |
+| $7/2$ | $(6, 335/128)$ | **$0.323284$** | every even $L \ge 6$ sites |
 | $[3.2059998, 3.206]$ | $(6, 381/125)$, Weyl-transported | **$0.001823729$** | every even $L \ge 6$ sites |
 
 ## Model
@@ -69,10 +70,13 @@ bound `gap_lower_bound`; both are rigorous.
 |---|---|---|---|---:|---:|
 | $4$ | $9/4$ | `64102636591415//10^15` | `40520211376808//10^15` | $0.694746846$ | $0.694042913$ |
 | $1603/500$ | $381/125$ | `191641808998499//10^15` | `46451711086584//10^15` | $0.002754398$ | $0.002750338$ |
+| $7/2$ | $335/128$ | `124204582097567//10^15` | `50721869574565//10^15` | $0.323284725$ | $0.322982138$ |
 
-Both seeds lie below the defects assumed by the Lean file ($\varepsilon_{\mathrm{s}} \le 0.06411$,
-$\varepsilon_\tau \le 0.04053$ at $D = 4$; $\varepsilon_{\mathrm{s}} \le 0.19164415$,
-$\varepsilon_\tau \le 0.046462453$ at $D = 1603/500$), which `check.jl` verifies exactly.
+The seeds at $D = 4$ and $D = 1603/500$ lie below the defects assumed by the Lean file
+($\varepsilon_{\mathrm{s}} \le 0.06411$, $\varepsilon_\tau \le 0.04053$ at $D = 4$;
+$\varepsilon_{\mathrm{s}} \le 0.19164415$, $\varepsilon_\tau \le 0.046462453$ at $D = 1603/500$),
+which `check.jl` verifies exactly. The point $D = 7/2$ has no Lean entry; `check.jl` checks it
+without Lean seed hypotheses.
 
 Stage-2 cases (`results/certificate.json`, interval bounds, every even $L \ge n_0$):
 
@@ -90,8 +94,9 @@ Stage-2 cases (`results/certificate.json`, interval bounds, every even $L \ge n_
 
 At $D = 4$ the $n_0 = 12$ bound extends to every even $L \ge 6$ through the finite bridge: the
 verified gaps of the rings $L = 6, 8, 10$ (`results/finite_bridge.json`) exceed it. For
-comparison, $\Delta_{12} \in [2.2694582, 2.2694597]$ at $D = 4$ and
-$\Delta_{12} \in [1.5453276, 1.5453288]$ at $D = 3.206$.
+comparison, $\Delta_{12} \in [2.2694582, 2.2694597]$ at $D = 4$,
+$\Delta_{12} \in [1.5453276, 1.5453288]$ at $D = 3.206$, and the floating-point scan gives
+$\Delta_{12} \approx 1.80954$ at $D = 7/2$.
 
 - **Stage 1 (`certify.jl`):** total $S^z$, momentum $0 \le m \le 6$, and flip parity at $S^z = 0$
   (the core `ring_blocks` with `flip` and `reflection`) split the $3^{12} = 531{,}441$ states into
@@ -153,10 +158,17 @@ julia --project=code/julia code/models/spin1_largeD/check.jl --full         # + 
 julia --project=code/julia code/models/spin1_largeD/test/runtests.jl        # tests + fast check (~63 s)
 ```
 
+Measured on the 2-core aarch64-linux server used for the 2026-10-30 regeneration of all three
+points: stage 2 (`transfer_certify.jl`) 31 s wall, fast `check.jl` 38 s, `test/runtests.jl`
+(including the fast check) 1 min 2 s, `check_records.jl` 14 s; the fresh $L = 6, 12$ verified
+spectra at $D = 7/2$ took about 29 min wall. `check.jl --full` was not rerun for this revision
+(it re-verifies the $L = 6, 12$ spectra of all three points, about 90 min on that server).
+
 Stage 1 costs about 1,800 s of CPU time per point (the $L = 12$ ring dominates), with a peak
-resident memory of 2.2 GB. `certify.jl 1603//500` runs one point; the two points ran as separate
-processes in 52 min wall time each on an Apple M-series host under a load average near 200, so
-all times above are inflated. The full replay recomputes the same spectra as `certify.jl` (about
+resident memory of 2.2 GB. `certify.jl 1603//500` runs one point; the first two points ran as
+separate processes in 52 min wall time each on an Apple M-series host under a load average near
+200, so those times are inflated, and the $D = 7/2$ point took about 29 min wall on a 2-core
+aarch64 server. The full replay recomputes the same spectra as `certify.jl` (about
 52 min per point under that load, run one point after the other); it was not rerun for this
 revision. The floating-point scan uses the core's unverified block eigenvalues
 (`float_ring_spectrum`):
@@ -182,11 +194,12 @@ julia --project=code/julia code/models/spin1_largeD/scripts/feasibility.jl
 - **Fast vs. full verification:** `check.jl` checks each core certificate with
   `GapCertificates.check_point` (stage-1 source hashes; exactly the point's model, RP data, seed
   and params; the Lean seed hypotheses read by `lean_points` from
-  `code/lean/CertifiedGaps/Models/SpinOneLargeD.lean`; the exact chain and interval bound), then the
-  SHA-256 of the stored spectra and the $\log Z$ and defects recomputed from them by
+  `code/lean/CertifiedGaps/Models/SpinOneLargeD.lean` for the points the Lean file lists; the exact
+  chain and interval bound), then the SHA-256 of the stored spectra and the $\log Z$ and defects
+  recomputed from them by
   `seed_bounds(...; spectra)`, a fresh $L = 6$ replay, every stage-2 case (exact equality), and a
-  fresh $L = 8, 10$ bridge. `check.jl --full` re-verifies both points from the model
-  (`check_point(...; spectra = true)`, dense $L = 6$ and $L = 12$).
+  fresh $L = 8, 10$ bridge. `check.jl --full` re-verifies every point from the model
+  (`check_point(...; spectra = true)`, dense $L = 6$ and $L = 12$ for each of the three points).
 - **Numerical only:** the $(D, n_0, \beta_0)$ scan, the $\Delta_{12}$ plot denominators of the
   scan curve, and the seed-size extrapolations for $D \le 3.2$.
 
@@ -197,7 +210,7 @@ this directory's `results/` is a relative symlink to that canonical location.
 
 | Path | Role |
 |---|---|
-| `certify.jl` | Stage 1: core certificates and stored spectra at both points |
+| `certify.jl` | Stage 1: core certificates and stored spectra at all points |
 | `check.jl` | Verifier for both stages (`--full` re-verifies the spectra) |
 | `src/model.jl` | Exact model, frame, RP data, points, Lean file path, file names |
 | `src/TransferCertificate.jl` | Stage 2: transfer squaring, coupling, Weyl transport, bridge, checker |
@@ -214,6 +227,23 @@ these model-local hashes; the core hashes are recorded as provenance only. No fi
 by path beyond these sources and the stored spectra.
 
 ## History
+
+**New point $D = 7/2$ (2026-10-30).** Stage 1 now also certifies $D = 7/2$ at the seed
+$(n_0, \beta_0) = (6, 335/128)$, giving $\Delta_L \ge 0.323284725$ for every even $L \ge 6$ sites;
+the point has no Lean entry, so `check.jl` checks it without Lean seed hypotheses. The
+floating-point scan's best seed at $D = 3.5$, $\beta_0 = 21/8$, is inadmissible once the defects
+are rounded up ($\varepsilon_{\mathrm{s}} = 0.12448$ sits on the boundary of the admissible
+region), so the certified seed is the best admissible one on a $1/128$ grid around it,
+$\beta_0 = 335/128$. All three stage-1 certificates and the stage-2 files were regenerated on an
+aarch64-linux host: the exact rational chain bounds and all defects are unchanged, but the
+`interval_bound_decimal` values of the two older stage-1 certificates moved by one ulp
+($0.6947468468809735 \to 0.6947468468809729$ at $D = 4$ and
+$0.0027543989016435024 \to 0.0027543989016444452$ at $D = 1603/500$), a platform difference in
+the interval evaluation of `certified_gap_bound` that also occurs on a clean checkout of `main`
+on this host. The stage-2 bounds in `results/certificate.json` moved by the same ulp-scale amount
+(the $D = 4$ lift moved up one ulp, the $D = 1603/500$ reference and transport moved down by less
+than $10^{-15}$); the two affected `records.yml` rows were lowered to the regenerated exact values
+with unchanged decimals, and the previous values were moved into their `history`.
 
 **Core drivers and the lattice reflection.** `certify.jl` and `check.jl` now use the core
 `certify_point`, `check_point` and `lean_points` (replacing hand-written Lean seed constants),

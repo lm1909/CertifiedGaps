@@ -121,7 +121,7 @@
             "bound": 0.6947548159052186
         }
     ],
-    "certificate_sha256": "498a2c7c6abfd591fa860149e50da2f34268d8e954cef8cfb873afe28d0a2702",
+    "certificate_sha256": "df936c80b6de87e152d040ddad02c0730cddece6e34a90f929f7bc2bd6dbdd80",
     "certified": [
         {
             "gap_L12_interval": [
@@ -129,13 +129,13 @@
                 "3479776418489213//2251799813685248"
             ],
             "ratio_interval": [
-                "2721250629918385//2305843009213693952",
-                "5442522100423935//4611686018427387904"
+                "5442501259830595//4611686018427387904",
+                "170078815638055//144115188075855872"
             ],
             "status": "certified numerator and finite L=12 denominator interval",
             "id": "transport-D1603//500",
             "D": 3.2059998,
-            "bound": "4205233392968261//2305843009213693952",
+            "bound": "8410466785926979//4611686018427387904",
             "D_interval": [
                 "16029999//5000000",
                 "1603//500"
@@ -147,13 +147,13 @@
                 "5110368748128161//2251799813685248"
             ],
             "ratio_interval": [
-                "892423393958339//2251799813685248",
-                "7139391400690897//18014398509481984"
+                "7139387151666713//18014398509481984",
+                "3569695700345449//9007199254740992"
             ],
             "status": "certified numerator and finite L=12 denominator interval",
             "id": "space-lift-1-D4//1",
             "D": 4,
-            "bound": "8101275423980713//9007199254740992",
+            "bound": "4050637711990357//4503599627370496",
             "D_interval": [
                 "4//1",
                 "4//1"
@@ -163,7 +163,7 @@
     "denominator": "finite-ring Delta_12; no thermodynamic gap asserted",
     "metadata": {
         "julia_threads": 1,
-        "julia": "1.12.4",
+        "julia": "1.12.7",
         "status": "numerical, not certified",
         "config": {
             "scanned_D": [
@@ -185,10 +185,10 @@
             ],
             "certified_only": true
         },
-        "created_utc": "2026-10-18T06:48:36.647",
+        "created_utc": "2026-10-30T20:26:27.981",
         "certified": false,
         "source_sha256": {
-            "models/spin1_largeD/src/model.jl": "a1103fa391a8809a792716bf713c2d67b245e9aded441474907c5174534f6b85",
+            "models/spin1_largeD/src/model.jl": "ca92d8213523ef82ec779468e7542a255100752f41c3f6f6a4cf76a63474bccb",
             "models/spin1_largeD/scripts/refine_beta.jl": "b17b8abcd74fe39411fbc7bd3199c239d00f4961c9e4c4582453f2135b64a860",
             "models/spin1_largeD/scripts/report.jl": "b501626ccfc4959620bc0e24311c37c04903e2f5e914117fc4a20e46ad94eafe",
             "models/spin1_largeD/scripts/scan.jl": "9a7b5eba65fb62a35d98bb7401b9e704a3de643ca519e7a9311659d8c6b1b146"
@@ -200,7 +200,7 @@
             "julia/src/RingModels.jl": "40bc01631c1f32b56436f13b4edc3b6572198724e8b4ca09939741003cd2bacd",
             "julia/src/Seeds.jl": "3e2d5041103c7e6629f7a31a76ef381f9fcd40566b7872460793edfe433387d4",
             "julia/src/recurrence/map.jl": "bcd8ed97ed6701d6b030a8d834207b29276542993d1cb7f30d503bf430e43f61",
-            "julia/src/VerifiedSpectra.jl": "d2d939818290005048fa18accb1d4688d36e73f5ae54c2d4e97e55706384802d",
+            "julia/src/VerifiedSpectra.jl": "299641ec58b4f6aae2e69e636135db1559adb8635a8aaba919bced500e47349f",
             "julia/src/CertifiedMPO/GaugeSearch.jl": "96d9fcdcf031b5b84c502a7582ae5715022752276d3385db724143477b2eb4f5",
             "julia/src/CertifiedMPO/CertifiedMPO.jl": "1d57e931d6929a3fd143201862c2f079008f9b7fd8288f7b95b0c17e536ef9e0",
             "julia/src/CertifiedMPO/SchattenBridge.jl": "2300c4f86790906274adf9d50ac8bd43a7ef1ccbfc49e4a9aaafbbe2addc290f",
