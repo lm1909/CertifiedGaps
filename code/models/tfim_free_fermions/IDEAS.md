@@ -22,7 +22,7 @@ Reflection positivity is immediate: in the $\sigma^z$ basis $-h = Z \otimes Z = 
    ```
    This is $O(L)$ elementary functions, so $\log Z$ at $L$ in the hundreds or thousands is
    enclosed in BigFloat interval arithmetic (MPFR, directed rounding) in milliseconds. The seed
-   defects are of order $e^{-n_0/\xi}$ and $e^{-\beta_0 \Delta}$, so $\log Z \approx 10^3$ must be
+   defects are of order $e^{-n_0/\xi}$ and $e^{-\beta_0 \Delta}$, so $\log Z \approx 10^4$–$10^5$ must be
    enclosed to far better than $10^{-30}$ absolute accuracy: Float64 cannot be used even for
    scans, 512-bit intervals are ample. Cost: linear in $n_0$, independent of $\beta_0$.
    For $g < 1$ the Ramond zero mode carries the signed energy $2(g - 1)$; all three targets have
@@ -32,7 +32,17 @@ Reflection positivity is immediate: in the $\sigma^z$ basis $-h = Z \otimes Z = 
 ## Choice
 
 Route 2. The closed form is classical (Lieb–Schultz–Mattis 1961, Pfeuty 1970); the tests
-compare it with exact diagonalization of rings of 4 to 12 sites. The certificate reuses the core
+compare it with exact diagonalization of rings of 4 to 10 sites. The certificate reuses the core
 `Seeds.seed_defects`, `certified_gap_bound` and `rational_gap_chain`.
 
 ## Outcome
+
+Route 2 works at all three points, at the survey's seed lengths: $\Delta_L \ge 1.91897$
+($g = 2$, $L \ge 128$), $0.45128$ ($g = 5/4$, $L \ge 144$) and $0.18259$ ($g = 11/10$,
+$L \ge 384$). These are within $`4\text{–}10\%`$ of the exact gaps and at least the survey's
+floating-point estimates. Certification takes under a second per point. Larger $n_0$ would give
+more (for example $1.9498$ at $n_0 = 256$ for $g = 2$, from the scan).
+
+Two pitfalls showed up on the way, both documented in `METHOD.md`: Julia's
+`Rational{BigInt}(::BigFloat)` rounds to the global precision, and `IntervalArithmetic`'s BigFloat
+`expm1` is not an enclosure when its argument carries more bits than the global precision.
