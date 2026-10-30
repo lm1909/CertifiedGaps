@@ -1183,6 +1183,52 @@ records:
     pr: null
     contributors: ['lm1909']
     notes: 'Floating-point survey estimate before certification: 0.178 at $(384, 161)$'
+  # ---------------------------------------------------------------- xy-field
+  - id: xy-Jx-m1-Jy-1-4-h-1
+    family: xy-field
+    parameter: '$J_x = -1,\ J_y = 1/4,\ h = 1$'
+    params: {Jx: "-1", Jy: "1/4", h: "1"}
+    lengths: {L0: 128}
+    bound: {value: "1970606566334941/4503599627370496", decimal: "0.437562"}
+    seed: {n0: 128, beta0: "189/4", text: 'Free-fermion closed form for $Z_L$ in 512-bit interval arithmetic'}
+    numerical_gap: "0.5"
+    tier: certified
+    method: 'free-fermion closed form, interval arithmetic'
+    certificate: data/models/xy_field/certificate_Jxm1_1_Jy1_4_h1_1.json.gz
+    check: code/models/xy_field/check.jl
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+  - id: xy-Jx-m1-Jy-1-2-h-1
+    family: xy-field
+    parameter: '$J_x = -1,\ J_y = 1/2,\ h = 1$'
+    params: {Jx: "-1", Jy: "1/2", h: "1"}
+    lengths: {L0: 128}
+    bound: {value: "4138383990400245/4503599627370496", decimal: "0.918905"}
+    seed: {n0: 128, beta0: "157/4", text: 'Free-fermion closed form for $Z_L$ in 512-bit interval arithmetic'}
+    numerical_gap: "1"
+    tier: certified
+    method: 'free-fermion closed form, interval arithmetic'
+    certificate: data/models/xy_field/certificate_Jxm1_1_Jy1_2_h1_1.json.gz
+    check: code/models/xy_field/check.jl
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+  - id: xy-Jx-m1-Jy-1-h-1
+    family: xy-field
+    parameter: '$J_x = -1,\ J_y = 1,\ h = 1$'
+    params: {Jx: "-1", Jy: "1", h: "1"}
+    lengths: {L0: 128}
+    bound: {value: "2099759308587299/1125899906842624", decimal: "1.864960"}
+    seed: {n0: 128, beta0: "121/4", text: 'Free-fermion closed form for $Z_L$ in 512-bit interval arithmetic'}
+    numerical_gap: "2"
+    tier: certified
+    method: 'free-fermion closed form, interval arithmetic'
+    certificate: data/models/xy_field/certificate_Jxm1_1_Jy1_1_h1_1.json.gz
+    check: code/models/xy_field/check.jl
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
   # ---------------------------------------------------------------- open targets (estimates only)
   - id: target-cluster-g-1-2
     family: cluster
@@ -1190,11 +1236,6 @@ records:
     params: {g: "1/2"}
     estimate: {n0: "128", beta0: "64", float_bound: "0.932", text: 'Two-site cells; reflection positive in a rotated cell basis'}
     numerical_gap: "1"
-    tier: target
-  - id: target-xy-field
-    family: xy-field
-    parameter: '$J_x J_y < 0$'
-    estimate: {text: 'Free fermions; reflection positive in the standard basis'}
     tier: target
   - id: target-blbq-theta-0-1
     family: spin1-blbq
