@@ -1,12 +1,13 @@
 # Two-leg spin-1/2 Heisenberg ladder
 
-This module certifies uniform spectral gaps for the two-leg spin-1/2 Heisenberg ladder at rung couplings $J_\perp = 4$, $7/2$, $3$, $5/2$, and $163069/65536$ from verified complete spectra of rings of $2$, $4$, and $8$ rungs, computed entirely with the shared core pipeline (`CertifiedGaps.GapCertificates.certify_point`). Each certificate establishes a unique ground state and $\Delta_L \ge$ the bound below for every even $L \ge 4$ rungs. At $J_\perp = 2$ and $3/2$, every seed with $`n_0 \in \{2, 4\}`$ is rigorously rejected for all $\beta > 0$. The certificates are `results/certificate_J*.json` (one core certificate per coupling), the grid decisions and negative results are in [`results/suite.json`](results/suite.json), the route analysis is in [`IDEAS.md`](IDEAS.md), and the method and the failed perturbation route are documented in [`METHOD.md`](METHOD.md).
+This module certifies uniform spectral gaps for the two-leg spin-1/2 Heisenberg ladder at rung couplings $J_\perp = 4$, $7/2$, $3$, $11/4$, $5/2$, and $163069/65536$ from verified complete spectra of rings of $2$, $4$, and $8$ rungs, computed entirely with the shared core pipeline (`CertifiedGaps.GapCertificates.certify_point`). Each certificate establishes a unique ground state and $\Delta_L \ge$ the bound below for every even $L \ge 4$ rungs. At $J_\perp = 2$ and $3/2$, every seed with $`n_0 \in \{2, 4\}`$ is rigorously rejected for all $\beta > 0$. The certificates are `results/certificate_J*.json` (one core certificate per coupling), the grid decisions and negative results are in [`results/suite.json`](results/suite.json), the route analysis is in [`IDEAS.md`](IDEAS.md), and the method and the failed perturbation route are documented in [`METHOD.md`](METHOD.md).
 
 | $J_\perp$ | seed $(n_0, \beta_0)$ | certified gap $\ge$ | lengths covered |
 |---|---|---:|---|
 | 4 | $(4, 2)$ | 1.102404333 | every even $L \ge 4$ rungs ($N = 8, 12, 16, \dots$ spins) |
 | 7/2 | $(4, 9/4)$ | 0.778648931 | every even $L \ge 4$ rungs |
 | 3 | $(4, 5/2)$ | 0.454189767 | every even $L \ge 4$ rungs |
+| 11/4 | $(4, 11/4)$ | 0.279529013 | every even $L \ge 4$ rungs |
 | 5/2 | $(4, 3)$ | 0.042434526 | every even $L \ge 4$ rungs |
 | 163069/65536 | $(4, 3)$ | 0.001540056 | every even $L \ge 4$ rungs |
 | 2, 3/2 | none ($`n_0 \in \{2, 4\}`$ rejected for all $\beta$) | — | no certificate |
@@ -49,13 +50,14 @@ Each certified coupling has one core certificate `results/certificate_J<tag>.jso
 | 4 | $(4, 2)$ | 0.035083179714486 | 0.024624083598950 | 1.102404333 | 1.101612408 | 1.063077261 |
 | 7/2 | $(4, 9/4)$ | 0.058068500731387 | 0.029870521934267 | 0.778648931 | 0.777944997 | 0.751906574 |
 | 3 | $(4, 5/2)$ | 0.098963550679878 | 0.044977191847942 | 0.454189767 | 0.453872996 | 0.435856991 |
+| 11/4 | $(4, 11/4)$ | 0.135621508773545 | 0.045503349834525 | 0.279529013 | 0.279241039 | 0.263047215 |
 | 5/2 | $(4, 3)$ | 0.185584310499645 | 0.051147245917534 | 0.042434526 | 0.042401528 | — |
 | 163069/65536 $\approx 2.488235$ | $(4, 3)$ | 0.187727933182815 | 0.052695044714438 | 0.001540056 | 0.001535930 | — |
 | 326133/131072 $\approx 2.488197$ | all 128 grid seeds rejected | | | — | | |
 | 2 | $`n_0 \in \{2, 4\}`$ rejected for every $\beta > 0$ | | | — | | |
 | 3/2 | $`n_0 \in \{2, 4\}`$ rejected for every $\beta > 0$ | | | — | | |
 
-Asymmetric defect pairs where $\varepsilon_{\mathrm{s}}$ exceeds the symmetric diagonal threshold $\varepsilon_* \approx 0.12731$ (at $J_\perp \le 5/2$) are certified directly by the asymmetric two-purity recurrence.
+Asymmetric defect pairs where $\varepsilon_{\mathrm{s}}$ exceeds the symmetric diagonal threshold $\varepsilon_* \approx 0.12731$ (at $J_\perp \le 11/4$) are certified directly by the asymmetric two-purity recurrence.
 
 ### Verification method
 
@@ -64,7 +66,7 @@ For each coupling, `verified_ring_spectrum` encloses every eigenvalue of the $2$
 - `rejected_by_recurrence`: the lower defects carry an exact rational witness that the recurrence diverges above $1/2$;
 - `unresolved`: neither (does not occur).
 
-The best certified seed is passed to `certify_point`, which runs the exact rational chain and writes the certificate. At $J_\perp = 2$ and $3/2$, monotone temperature-window bounds and a ground-energy tail (`CertifiedGaps.Exclusions.exclude_all_beta`) extend the rejection to every $\beta > 0$. Certified seeds at $J_\perp = 4, 7/2, 3$ are continued across $|J_\perp - J_*| \le 10^{-4}$ using an operator-norm bound on the centered rung sum (see [`METHOD.md`](METHOD.md)).
+The best certified seed is passed to `certify_point`, which runs the exact rational chain and writes the certificate. At $J_\perp = 2$ and $3/2$, monotone temperature-window bounds and a ground-energy tail (`CertifiedGaps.Exclusions.exclude_all_beta`) extend the rejection to every $\beta > 0$. Certified seeds at $J_\perp = 4, 7/2, 3, 11/4$ are continued across $|J_\perp - J_*| \le 10^{-4}$ using an operator-norm bound on the centered rung sum (see [`METHOD.md`](METHOD.md)).
 
 ### Finite-grid threshold and negative rows
 
@@ -91,9 +93,9 @@ julia --project=code/julia code/models/heisenberg_ladder/scripts/replay_scans.jl
   params, the Lean seed of `lean_points` at $J_\perp = 4$, RP, the exact chain and the interval
   bound), the continuations, the coverage and witnesses of the all-$`\beta`$ exclusions
   (`Exclusions.check_exclusion`), and the README claims (`CLAIMED_GAPS`), without spectra.
-- `check.jl --full`: also recomputes every verified spectrum, all 1,024 grid defect enclosures,
+- `check.jl --full`: also recomputes every verified spectrum, all 1,152 grid defect enclosures,
   each certificate's seed (`check_point` with the fresh spectra), and every exclusion bound.
-- `certify.jl`: writes the five core certificates and `results/suite.json`.
+- `certify.jl`: writes the six core certificates and `results/suite.json`.
 - `scripts/audit.jl` and `scripts/replay_scans.jl`: the independent MPFR audit of the
   $J_\perp = 4$ seed and the replay of the stored scans.
 
@@ -101,7 +103,8 @@ Measured CPU (user) times, Julia 1.12 on an Apple M5 with one BLAS thread, inclu
 `certify.jl` 76 s (121 s wall clock on a shared machine; 9–19 s per coupling, most of it the
 8-rung spectrum), `check.jl` 22 s, `check.jl --full` 75 s, `test/runtests.jl` 36 s,
 `scripts/audit.jl` 27 s, `scripts/replay_scans.jl` 7 s. Other jobs ran concurrently, so wall-clock times were up to twice as
-large.
+large. On the 2-core ARM server hermes (Julia 1.12.7, one BLAS thread, nine couplings):
+`certify.jl` 105 s, `check.jl` 31 s, `check.jl --full` 141 s, `test/runtests.jl` 52 s.
 
 The exploratory floating-point scans are regenerated per coupling by `scripts/scan.jl <J>`
 (`float_ring_spectrum`: unverified eigenvalues of the core symmetry blocks up to 10 rungs, about
@@ -114,7 +117,7 @@ extrapolated seed lengths are unchanged.
 
 - **Verified by `check.jl --full` from fresh computation:** exact frame and RP identities, the
   exact symmetry blocks and multiplicities (`ring_blocks`), all eigenvalue and $\log Z$
-  enclosures, all 1,024 grid decisions with their upper/lower defect bounds and rejection
+  enclosures, all 1,152 grid decisions with their upper/lower defect bounds and rejection
   witnesses, each core certificate's seed and exact rational chain, the core interval bounds, the
   all-$`\beta`$ exclusions, the coupling continuations, the README claims (`CLAIMED_GAPS`), and the
   SHA-256 hashes of the model-local sources `src/`, `certify.jl`, and `check.jl` (tests and
@@ -153,7 +156,7 @@ src/suite.jl                     grid classification, continuation, produce and 
 test/runtests.jl                 fast unit and verification tests
 scripts/audit.jl                 independent MPFR audit of the J⊥ = 4 seed
 scripts/                         exploratory floating-point scans and replay (not certificates)
-results/certificate_J*.json      core gap certificates (J4, J7_2, J3, J5_2, J163069_65536)
+results/certificate_J*.json      core gap certificates (J4, J7_2, J3, J11_4, J5_2, J163069_65536)
 results/suite.json               grid decisions, rejection witnesses, exclusions, continuations
 results/audit.json               output of scripts/audit.jl
 results/scan_replay.json         output of scripts/replay_scans.jl
@@ -192,3 +195,11 @@ model makes every block real; every grid decision, best seed, and exclusion is u
 defect bound decreased, and the interval gap bounds rose (old → new):
 $1.102404331 \to 1.102404333$, $0.778648930 \to 0.778648931$, $0.454189766 \to 0.454189767$,
 $0.042434525 \to 0.042434526$, $0.001540040 \to 0.001540056$.
+
+The suite then gained the coupling $J_\perp = 11/4$ (certified at the seed $(4, 11/4)$ with
+$\Delta_L \ge 0.279529013$, plus its coupling continuation and its Lean 4 record
+`Leaderboard.Records.HeisenbergLadder.Jperp_11_4`). Regenerating all certificates on a different
+machine moved the stored `interval_bound_decimal` of $J_\perp = 4, 7/2, 5/2$ by a few units in
+the last place (the nine-digit decimals, the exact chains, the seeds and every grid decision are
+unchanged), so the `bound.value` of those three leaderboard rows was lowered to the regenerated
+values.

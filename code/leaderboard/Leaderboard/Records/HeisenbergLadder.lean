@@ -31,6 +31,12 @@ theorem Jperp_3 :
   RPRing.seeded (model 3) _ Chains.HeisenbergLadder.Jperp_3_valid
     |>.congr (by decide) fun _ _ hLe ↦ (physicalSpectrum_eq _ hLe).symm
 
+/-- The two-leg spin-½ Heisenberg ladder, `J⊥ = 11/4`. -/
+theorem Jperp_11_4 :
+    Record.Seeded (physicalSpectrum (11 / 4)) 4 215685e-5 (11 / 4) 4 13562151e-8 4550335e-8 :=
+  RPRing.seeded (model (11 / 4)) _ Chains.HeisenbergLadder.Jperp_11_4_valid
+    |>.congr (by decide) fun _ _ hLe ↦ (physicalSpectrum_eq _ hLe).symm
+
 /-- The two-leg spin-½ Heisenberg ladder, `J⊥ = 5/2`. -/
 theorem Jperp_5_2 :
     Record.Seeded (physicalSpectrum (5 / 2)) 4 11356953e-7 3 4 18558434e-8 5114736e-8 :=

@@ -504,7 +504,7 @@ records:
     parameter: '$J_\perp = 4$'
     params: {Jperp: "4"}
     lengths: {L0: 4}
-    bound: {value: "620598468107361/562949953421312", decimal: "1.102404333"}
+    bound: {value: "2482393872429437/2251799813685248", decimal: "1.102404333"}
     seed: {n0: 4, beta0: "2"}
     numerical_gap: "3.1375"
     tier: certified
@@ -524,7 +524,7 @@ records:
     parameter: '$J_\perp = 7/2$'
     params: {Jperp: "7/2"}
     lengths: {L0: 4}
-    bound: {value: "7013446072847427/9007199254740992", decimal: "0.778648931"}
+    bound: {value: "7013446072847425/9007199254740992", decimal: "0.778648931"}
     seed: {n0: 4, beta0: "9/4"}
     numerical_gap: "2.6584"
     tier: certified
@@ -559,12 +559,30 @@ records:
     history:
       - {date: "2026-10-15", decimal: "0.454189334", lengths: 'even L ≥ 4 rungs', tier: certified, pr: 13,
          method: 'an earlier computation from the same seed'}
+  - id: ladder-Jperp-11-4
+    family: heisenberg-ladder
+    parameter: '$J_\perp = 11/4$'
+    params: {Jperp: "11/4"}
+    lengths: {L0: 4}
+    bound: {value: "2517773519141501/9007199254740992", decimal: "0.279529013"}
+    seed: {n0: 4, beta0: "11/4"}
+    numerical_gap: "1.9541"
+    tier: certified
+    lean: {name: Leaderboard.Records.HeisenbergLadder.Jperp_11_4, r: "43137/20000", beta: "11/4", decimal: "0.279508663"}
+    certificate: data/models/heisenberg_ladder/certificate_J11_4.json
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    method: 'core pipeline from verified spectra of the 2-, 4- and 8-rung rings'
+    notes: >-
+      A perturbation bound around $J_\perp = 11/4$ extends the result to $|J_\perp - 11/4| \le
+      10^{-4}$, with $\Delta_L \ge 0.263047215$.
   - id: ladder-Jperp-5-2
     family: heisenberg-ladder
     parameter: '$J_\perp = 5/2$'
     params: {Jperp: "5/2"}
     lengths: {L0: 4}
-    bound: {value: "3057729876479187/72057594037927936", decimal: "0.042434526"}
+    bound: {value: "3057729876479173/72057594037927936", decimal: "0.042434526"}
     seed: {n0: 4, beta0: "3"}
     numerical_gap: "1.7252"
     tier: certified

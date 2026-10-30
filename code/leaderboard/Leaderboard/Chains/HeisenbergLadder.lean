@@ -59,6 +59,20 @@ def Jperp_3 : ChainCertificate where
 
 theorem Jperp_3_valid : Jperp_3.Valid := by decide +kernel
 
+/-- `ladder-Jperp-11-4`: seed `(n₀, β₀) = (4, 11/4)` from
+`data/models/heisenberg_ladder/certificate_J11_4.json`; `log r / β₀ ≥ 0.279508663`. -/
+def Jperp_11_4 : ChainCertificate where
+  s := [13562151e-8, 80892455e-9, 21326554e-9, 10595021e-10, 22773459e-13, 10374198e-18,
+      21524798e-29, 92663386e-51, 17173007e-93, 58982434e-179, 69578551e-350, 96823496e-692,
+      18749579e-1375, 70309343e-2743, 98868075e-5478]
+  t := [4550335e-8, 18860978e-9, 1888285e-9, 11770645e-12, 33331323e-17, 22916495e-26, 10513183e-44,
+      22105423e-81, 97729946e-155, 19102285e-301, 72979459e-595, 10652003e-1181, 22693034e-2355,
+      10299476e-4702, 21215842e-9397]
+  r := 215685e-5
+  ε := 98868075e-5478
+
+theorem Jperp_11_4_valid : Jperp_11_4.Valid := by decide +kernel
+
 /-- `ladder-Jperp-5-2`: seed `(n₀, β₀) = (4, 3)` from
 `models/heisenberg_ladder/results/certificate.json`; `log r / β₀ ≥ 0.042415020`. -/
 def Jperp_5_2 : ChainCertificate where
