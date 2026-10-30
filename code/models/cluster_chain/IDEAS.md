@@ -37,3 +37,8 @@ Route 2, with the interval code of `code/models/tfim_free_fermions/` adapted to 
 two-site cells.
 
 ## Outcome
+
+Route 2 works. At the survey's seed length $n_0 = 128$ cells, $\beta_0 = 175/2$, the certified
+bound is $\Delta_L \ge 0.951567$ for every even $L \ge 128$ cells (exact gap $1$, survey estimate
+$0.932$). The RP factorization in the frame $(H \otimes H)\,\mathrm{CS}$ has two factors with
+entries in $\{0, \pm 1, \pm i\}$ and unit weights.
