@@ -6,7 +6,8 @@
 # For every point, `check_point` requires the model-local source hashes, the stored model, RP
 # data, seed, blocking and params to be the point's definitions in src/common.jl (not merely
 # self-consistent), the stored εₛ, εₜ to be at most the seed defects the Lean theorem assumes
-# (`lean_points`), and then reruns the exact chain and the interval bound. `--full` also
+# (`lean_points`; points without a Lean point in `code/lean` skip that comparison), and then
+# reruns the exact chain and the interval bound. `--full` also
 # rebuilds and re-verifies the 8- and 16-site spectra of every point and requires the fresh
 # defects to be at most the stored εₛ, εₜ. Finally results/summary.json must list exactly the
 # certificates' rows.
@@ -15,7 +16,7 @@ full = "--full" in ARGS
 lean = Dict(p.params => p for p in lean_points(LEAN))
 for (h, β0) in SEEDS
     seconds = @elapsed check_point(certificate_path(h), site_model(h); point(h)...,
-        lean = lean[[h, β0]], spectra = full)
+        lean = get(lean, [h, β0], nothing), spectra = full)
     println("h = $h: certificate checked", full ? " with spectra" : "",
         " in $(round(seconds; digits = 1)) s")
 end

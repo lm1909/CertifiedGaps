@@ -323,6 +323,38 @@ records:
     history:
       - {date: "2026-10-12", decimal: "0.214486", lengths: 'even L ≥ 8', tier: certified, pr: 2,
          method: 'an earlier computation from the same seed'}
+  - id: staggered-h-3-10
+    family: heisenberg-staggered-field
+    parameter: '$h = 3/10$'
+    params: {h: "3/10"}
+    lengths: {L0: 8}
+    bound: {value: "5411436009220103/18014398509481984", decimal: "0.300395"}
+    seed: {n0: 8, beta0: "25/4"}
+    numerical_gap: "0.906341576"
+    tier: certified
+    lean: {name: Leaderboard.Records.StaggeredHeisenberg.h_3_10, r: "65365731/10000000", beta: "25/4", decimal: "0.300386"}
+    certificate: data/models/heisenberg_staggered_field/certificate_3_10.json
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    method: 'verified 8- and 16-site spectra, seed (8, 25/4)'
+    notes: 'Grid point between $h = 7/20$ and $h = 1/4$.'
+  - id: staggered-h-1-5
+    family: heisenberg-staggered-field
+    parameter: '$h = 1/5$'
+    params: {h: "1/5"}
+    lengths: {L0: 8}
+    bound: {value: "7841789092774227/72057594037927936", decimal: "0.108826"}
+    seed: {n0: 8, beta0: "27/4"}
+    numerical_gap: "0.709923279"
+    tier: certified
+    lean: {name: Leaderboard.Records.StaggeredHeisenberg.h_1_5, r: "20844899/10000000", beta: "27/4", decimal: "0.108818"}
+    certificate: data/models/heisenberg_staggered_field/certificate_1_5.json
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    method: 'verified 8- and 16-site spectra, seed (8, 27/4)'
+    notes: 'Near-critical field: the smallest $h$ certified from rings of at most 16 sites. The spatial defect 0.1337 exceeds the diagonal threshold, but the unequal-defect recurrence closes.'
   # ---------------------------------------------------------------- dimerized-heisenberg
   - id: dimerized-delta-1-2
     family: dimerized-heisenberg

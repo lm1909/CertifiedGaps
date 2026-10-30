@@ -14,7 +14,7 @@ const LEAN = normpath(joinpath(ROOT, "..", "..", "lean", "CertifiedGaps", "Model
 
 "Certified points: staggered field h => seed inverse temperature β₀, at the seed length `N0`."
 const SEEDS = [1 // 1 => 21 // 4, 3 // 4 => 21 // 4, 1 // 2 => 11 // 2, 7 // 20 => 23 // 4,
-    1 // 4 => 25 // 4]
+    3 // 10 => 25 // 4, 1 // 4 => 25 // 4, 1 // 5 => 27 // 4]
 const FIELDS = first.(SEEDS)
 "Seed length n₀ in sites (lengths count sites: the unit cell of the rotated frame is one spin)."
 const N0 = 8

@@ -107,7 +107,9 @@ the grid $10^{-15}$. `certify_gap` runs the exact rational chain and the interva
 | `3//4` | `21//4` | `585396962529//250000000000000` | `3118610756377//1000000000000000` | 0.890950432 | 0.889743689 | 1.57089206 | 113.6 |
 | `1//2` | `11//2` | `1342500085157//125000000000000` | `5576810540003//500000000000000` | 0.594821280 | 0.594245333 | 1.23131976 | 118.7 |
 | `7//20` | `23//4` | `510196036833//15625000000000` | `27432706400803//1000000000000000` | 0.383520437 | 0.383244983 | 0.994380622 | 113.4 |
+| `3//10` | `25//4` | `52490597618671//1000000000000000` | `26116534517823//1000000000000000` | 0.300395043 | 0.300141625 | 0.906341576 | 198.1 |
 | `1//4` | `25//4` | `2495802294179//31250000000000` | `44760635388019//1000000000000000` | 0.214491805 | 0.214238387 | 0.812031433 | 117.0 |
+| `1//5` | `27//4` | `133739699620563//1000000000000000` | `26813174305583//500000000000000` | 0.108826685 | 0.108709361 | 0.709923279 | 112.1 |
 
 *Single-field times on a lightly loaded machine. The final regeneration ran under heavy
 concurrent load, and the `seconds` stored in the certificates (143–195 s) reflect that load.
@@ -137,7 +139,10 @@ are exploratory numerical estimates:
 | `1//10` | — | — | no grid seed at $n_0 \le 10$ | 0.466432604 |
 
 At $n_0 \le 10$, the sampled $\beta_0$ grid finds an admissible seed at $h = 3/20 = 0.15$ and none
-at $h = 1/10 = 0.10$. The table below records $\max_\beta \min(P_{\mathrm{s}}(n_0, \beta), P_\tau(2n_0, \beta))$
+at $h = 1/10 = 0.10$. (Update 2026-10-30: the 16-site scan finds an admissible seed at $n_0 = 8$
+already at $h = 1/5$, so $h = 1/5$ is certified from rings of at most 16 sites; at $h = 3/20$ the
+$n_0 = 8$ purity peak is $0.815$, below the admissibility threshold, and $n_0 = 10$ would need
+20-site spectra.) The table below records $\max_\beta \min(P_{\mathrm{s}}(n_0, \beta), P_\tau(2n_0, \beta))$
 and the ground-state spatial energy defect $\delta(n_0) = E_0(2n_0) - 2E_0(n_0)$ across all scanned
 fields and seed lengths $`n_0 \in \{2, 4, 6, 8, 10\}`$:
 
