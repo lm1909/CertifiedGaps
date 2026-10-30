@@ -115,4 +115,18 @@ def h_1_5 : ChainCertificate where
 
 theorem h_1_5_valid : h_1_5.Valid := by decide +kernel
 
+/-- `staggered-h-3-8`: seed `(n₀, β₀) = (8, 6)` from
+`data/models/heisenberg_staggered_field/certificate_3_8.json`; `log r / β₀ ≥ 0.418218`. -/
+def h_3_8 : ChainCertificate where
+  s := [28055596e-9, 29139583e-10, 21375154e-12, 95523751e-17, 1828464e-24, 66865859e-43,
+      89420862e-78, 15992182e-147, 51149978e-287, 52326405e-566, 54761054e-1124, 59975461e-2240,
+      71941119e-4472, 1035105e-8934, 21428848e-17863]
+  t := [16515878e-9, 68043357e-11, 95726041e-14, 18345296e-19, 67310045e-31, 90612844e-54,
+      16421375e-99, 53932312e-191, 58173886e-374, 67684021e-740, 91622534e-1472, 16789378e-2935,
+      56376643e-5863, 63566518e-11718, 80814045e-23428]
+  r := 12296482e-6
+  ε := 21428848e-17863
+
+theorem h_3_8_valid : h_3_8.Valid := by decide +kernel
+
 end Leaderboard.Chains.StaggeredHeisenberg

@@ -31,6 +31,12 @@ theorem h_1_2 :
   RPRing.seeded (model (1 / 2)) _ Chains.StaggeredHeisenberg.h_1_2_valid
     |>.congr (by decide) fun _ _ hLe ↦ (physicalSpectrum_eq _ hLe).symm
 
+/-- The spin-½ Heisenberg chain in a staggered field, `h = 3/8`. -/
+theorem h_3_8 :
+    Record.Seeded (physicalSpectrum (3 / 8)) 8 12296482e-6 6 8 28055596e-9 16515878e-9 :=
+  RPRing.seeded (model (3 / 8)) _ Chains.StaggeredHeisenberg.h_3_8_valid
+    |>.congr (by decide) fun _ _ hLe ↦ (physicalSpectrum_eq _ hLe).symm
+
 /-- The spin-½ Heisenberg chain in a staggered field, `h = 7/20`. -/
 theorem h_7_20 :
     Record.Seeded (physicalSpectrum (7 / 20)) 8 90713109e-7 (23 / 4) 8 32653342e-9 2743591e-8 :=

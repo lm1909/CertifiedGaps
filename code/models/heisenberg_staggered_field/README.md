@@ -1,7 +1,8 @@
 # Spin-1/2 Heisenberg chain in a staggered field
 
-**Certified at $h = 1, 3/4, 1/2, 7/20, 3/10, 1/4, 1/5$: a unique ground state and a uniform
-spectral gap $\Delta_L \ge 1.148970, 0.890950, 0.594821, 0.383520, 0.300395, 0.214491, 0.108826$
+**Certified at $h = 1, 3/4, 1/2, 3/8, 7/20, 3/10, 1/4, 1/5$: a unique ground state and a uniform
+spectral gap $\Delta_L \ge 1.148970, 0.890950, 0.594821, 0.418228, 0.383520, 0.300395, 0.214491,
+0.108826$
 for every even chain length $L \ge 8$ sites.** Each certificate is produced by the shared core
 pipeline (`CertifiedGaps.GapCertificates.certify_point`) from verified complete spectra of the
 8- and 16-site rings. These spectra are split by an exact two-site blocking with a conserved U(1)
@@ -13,6 +14,7 @@ cell charge. Derivations, sector data and the 20-site exploration are in
 | $1$ | $(8, 21/4)$ | $1.148970$ | every even $L \ge 8$ sites |
 | $3/4$ | $(8, 21/4)$ | $0.890950$ | every even $L \ge 8$ sites |
 | $1/2$ | $(8, 11/2)$ | $0.594821$ | every even $L \ge 8$ sites |
+| $3/8$ | $(8, 6)$ | $0.418228$ | every even $L \ge 8$ sites |
 | $7/20$ | $(8, 23/4)$ | $0.383520$ | every even $L \ge 8$ sites |
 | $3/10$ | $(8, 25/4)$ | $0.300395$ | every even $L \ge 8$ sites |
 | $1/4$ | $(8, 25/4)$ | $0.214491$ | every even $L \ge 8$ sites |
@@ -74,6 +76,7 @@ exchange is not on-site, so no charge flip is used.
 | $1$ | $(8, 21/4)$ | $6.926 \times 10^{-4}$ | $7.284 \times 10^{-4}$ | $1.148970$ | $1.147763329$ | $1.87351193$ |
 | $3/4$ | $(8, 21/4)$ | $2.342 \times 10^{-3}$ | $3.119 \times 10^{-3}$ | $0.890950$ | $0.889743689$ | $1.57089206$ |
 | $1/2$ | $(8, 11/2)$ | $1.074 \times 10^{-2}$ | $1.115 \times 10^{-2}$ | $0.594821$ | $0.594245333$ | $1.23131976$ |
+| $3/8$ | $(8, 6)$ | $2.806 \times 10^{-2}$ | $1.652 \times 10^{-2}$ | $0.418228$ | $0.417700246$ | $1.036427993$ |
 | $7/20$ | $(8, 23/4)$ | $3.265 \times 10^{-2}$ | $2.743 \times 10^{-2}$ | $0.383520$ | $0.383244983$ | $0.994380622$ |
 | $3/10$ | $(8, 25/4)$ | $5.249 \times 10^{-2}$ | $2.612 \times 10^{-2}$ | $0.300395$ | $0.300141625$ | $0.906341576$ |
 | $1/4$ | $(8, 25/4)$ | $7.987 \times 10^{-2}$ | $4.476 \times 10^{-2}$ | $0.214491$ | $0.214238387$ | $0.812031433$ |
@@ -98,7 +101,7 @@ environment (the model has no environment of its own):
 
 ```sh
 julia --project=code/julia -e 'using Pkg; Pkg.instantiate()'
-# All seven certificates and results/summary.json (or one field: certify.jl '1//2'):
+# All eight certificates and results/summary.json (or one field: certify.jl '1//2'):
 julia --project=code/julia code/models/heisenberg_staggered_field/certify.jl
 julia --project=code/julia code/models/heisenberg_staggered_field/check.jl
 julia --project=code/julia code/models/heisenberg_staggered_field/check.jl --full
@@ -110,13 +113,14 @@ julia --project=code/julia code/models/heisenberg_staggered_field/scripts/scan.j
 Measured run times (Julia 1.12, 1 BLAS thread, Apple M-series laptop under heavy concurrent
 load, so wall times are about twice the CPU times):
 - `certify.jl`: 14 min wall time (481 s CPU) for all five fields, 143–222 s per field; the
-  regeneration with all seven fields took 12 min wall time (99–138 s per field) on a 2-core ARM
-  server shared with other agents;
-- `check.jl`: 27 s including compilation for five fields; 17 s for all seven fields on the same
-  server;
+  regeneration with all seven fields took 12 min wall time (99–138 s per field) and with all
+  eight fields 14 min wall time on a 2-core ARM server shared with other agents;
+- `check.jl`: 27 s including compilation for five fields; 17 s for all seven fields and 18 s for
+  all eight fields on the same server;
 - `check.jl --full`: 15 min wall time (488 s CPU), re-verifying the 8- and 16-site spectra of
-  all five certificates (122–241 s per field); 707 s for all seven fields on the same server;
-- `test/runtests.jl`: 46 tests, 48 s wall time (seven fields).
+  all five certificates (122–241 s per field); 707 s for all seven fields and 834 s for all
+  eight fields (98–122 s per field) on the same server;
+- `test/runtests.jl`: 46 tests, 48 s wall time (seven fields); 52 tests, 33 s (eight fields).
 
 ## What is rigorous
 
@@ -185,9 +189,10 @@ No file is hash-pinned by its working-tree path.
   uses `is_frame_change` on two-site cells, the site model records its reflection $P = I$, and
   every certificate records `params`. The regenerated certificates have exactly the same seeds,
   defects and bounds.
-- 2026-10-30: added the grid point $h = 3/10$ (seed $(8, 25/4)$, $\Delta_L \ge 0.300395$) and the
-  near-critical point $h = 1/5$ (seed $(8, 27/4)$, $\Delta_L \ge 0.108826$), both found by the
-  floating-point 16-site scan (`scripts/scan.jl 16`) and certified from the same verified 8- and
-  16-site spectra. All seven certificates were regenerated after the `SEEDS` edit; the five
-  previous points kept exactly their seeds, defects and bounds. The two new points also got Lean
-  chain records (`Leaderboard.Records.StaggeredHeisenberg.h_3_10`, `h_1_5`).
+- 2026-10-30: added the grid points $h = 3/10$ (seed $(8, 25/4)$, $\Delta_L \ge 0.300395$) and
+  $h = 3/8$ (seed $(8, 6)$, $\Delta_L \ge 0.418228$) and the near-critical point $h = 1/5$ (seed
+  $(8, 27/4)$, $\Delta_L \ge 0.108826$), all found by the floating-point 16-site scan
+  (`scripts/scan.jl 16`) and certified from the same verified 8- and 16-site spectra. All eight
+  certificates were regenerated after the `SEEDS` edit; the five previous points kept exactly
+  their seeds, defects and bounds. The three new points also got Lean chain records
+  (`Leaderboard.Records.StaggeredHeisenberg.h_3_10`, `h_3_8`, `h_1_5`).

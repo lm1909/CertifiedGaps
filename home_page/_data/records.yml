@@ -289,6 +289,22 @@ records:
     history:
       - {date: "2026-10-12", decimal: "0.594785", lengths: 'even L ≥ 8', tier: certified, pr: 2,
          method: 'an earlier computation from the same seed'}
+  - id: staggered-h-3-8
+    family: heisenberg-staggered-field
+    parameter: '$h = 3/8$'
+    params: {h: "3/8"}
+    lengths: {L0: 8}
+    bound: {value: "7534129410152619/18014398509481984", decimal: "0.418228"}
+    seed: {n0: 8, beta0: "6"}
+    numerical_gap: "1.036427993"
+    tier: certified
+    lean: {name: Leaderboard.Records.StaggeredHeisenberg.h_3_8, r: "6148241/500000", beta: "6", decimal: "0.418218"}
+    certificate: data/models/heisenberg_staggered_field/certificate_3_8.json
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    method: 'verified 8- and 16-site spectra, seed (8, 6)'
+    notes: 'Grid point between $h = 1/2$ and $h = 7/20$.'
   - id: staggered-h-7-20
     family: heisenberg-staggered-field
     parameter: '$h = 7/20$'
