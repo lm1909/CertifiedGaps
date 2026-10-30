@@ -25,7 +25,8 @@ fixes $Z$. The certificates use $J_x = -1$.
    A floating-point prototype matched dense ED at $L = 4, 6, 8$ to $10^{-14}$ for four parameter
    sets, including one in the ordered phase. In the paramagnetic phase $h > |J_x + J_y|$ every
    $\varepsilon_k$ is positive, the ground state is unique, and the gap is
-   $2(h - |J_x + J_y|)$. The code requires that regime. Cost: linear in $L$.
+   $2(h - |J_x + J_y|)$: for $J_x J_y < 0$, $|J_x + J_y| < |J_x - J_y|$, so $\varepsilon_k^2$ is concave
+   in $\cos k$ and is smallest at $k = 0$ or $\pi$. The code requires this regime. Cost: linear in $L$.
 3. **Ordered phase** $h < |J_x + J_y|$: the two quasi-degenerate ground states on rings rule out
    the criterion (it proves a unique ground state). Not attempted.
 
@@ -36,3 +37,8 @@ The interval code mirrors `tfim_free_fermions/src/FreeFermions.jl`, including it
 precision safeguards (see that model's `METHOD.md`).
 
 ## Outcome
+
+Route 2 works. At $n_0 = 128$ the certified bounds are $\Delta_L \ge 0.43756$ ($J_y = 1/4$),
+$0.91890$ ($J_y = 1/2$) and $1.86496$ ($J_y = 1$) for every even $L \ge 128$, against exact gaps
+$1/2$, $1$ and $2$. Certification takes under a second per point. The interval code mirrors
+`tfim_free_fermions`, including its BigFloat precision safeguards.
