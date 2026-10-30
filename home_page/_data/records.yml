@@ -559,6 +559,24 @@ records:
     history:
       - {date: "2026-10-15", decimal: "0.454189334", lengths: 'even L ≥ 4 rungs', tier: certified, pr: 13,
          method: 'an earlier computation from the same seed'}
+  - id: ladder-Jperp-13-4
+    family: heisenberg-ladder
+    parameter: '$J_\perp = 13/4$'
+    params: {Jperp: "13/4"}
+    lengths: {L0: 4}
+    bound: {value: "5532922740985015/9007199254740992", decimal: "0.614277822"}
+    seed: {n0: 4, beta0: "9/4"}
+    numerical_gap: "2.4215"
+    tier: certified
+    lean: {name: Leaderboard.Records.HeisenbergLadder.Jperp_13_4, r: "39831347/10000000", beta: "9/4", decimal: "0.614252943"}
+    certificate: data/models/heisenberg_ladder/certificate_J13_4.json
+    date: "2026-10-30"
+    pr: null
+    contributors: ['lm1909']
+    method: 'core pipeline from verified spectra of the 2-, 4- and 8-rung rings'
+    notes: >-
+      A perturbation bound around $J_\perp = 13/4$ extends the result to $|J_\perp - 13/4| \le
+      10^{-4}$, with $\Delta_L \ge 0.592611834$.
   - id: ladder-Jperp-11-4
     family: heisenberg-ladder
     parameter: '$J_\perp = 11/4$'

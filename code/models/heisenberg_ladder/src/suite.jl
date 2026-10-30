@@ -12,11 +12,11 @@ const SEED_LENGTHS = (2, 4)
 "Rings whose verified spectra the suite needs."
 const RINGS = (2, 4, 8)
 """
-Couplings in the suite: the six certified ones (five round values and the upper end of the
+Couplings in the suite: the seven certified ones (six round values and the upper end of the
 finite-grid threshold bracket), the two all-β exclusions, and the lower bracket end (proposed
 by `scripts/threshold_bisection.jl`).
 """
-const COUPLINGS = [4 // 1, 7 // 2, 3 // 1, 11 // 4, 5 // 2, 2 // 1, 3 // 2,
+const COUPLINGS = [4 // 1, 7 // 2, 3 // 1, 13 // 4, 11 // 4, 5 // 2, 2 // 1, 3 // 2,
     326133 // 131072, 163069 // 65536]
 "Couplings at which seeds n₀ ∈ {2, 4} are excluded for every β > 0."
 const ALL_BETA_EXCLUDED = (2 // 1, 3 // 2)
@@ -27,8 +27,8 @@ must be rigorously rejected.
 """
 const CLAIMED_GAPS = Dict{Rational{Int},Union{Q,Nothing}}(
     4 // 1 => big(1102404333) // 10^9, 7 // 2 => big(778648931) // 10^9,
-    3 // 1 => big(454189767) // 10^9, 11 // 4 => big(279529013) // 10^9,
-    5 // 2 => big(42434526) // 10^9,
+    3 // 1 => big(454189767) // 10^9, 13 // 4 => big(614277822) // 10^9,
+    11 // 4 => big(279529013) // 10^9, 5 // 2 => big(42434526) // 10^9,
     2 // 1 => nothing, 3 // 2 => nothing, 326133 // 131072 => nothing,
     163069 // 65536 => big(1540056) // 10^9)
 "Coupling half-width of the continuation intervals around certified couplings."
