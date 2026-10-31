@@ -37,9 +37,7 @@ rotated frame conserves the U(1) cell charge $S^z_a - S^z_b$; this is the same r
 route 1. Exploratory 20-site scans ($n_0 = 10$), with partial Krylov spectra for large blocks,
 identified stronger numerical candidate seeds down to $h = 3/20$.
 
-## Outcome (2026-10-30 update)
-
-Two more fields were certified at the same seed length $n_0 = 8$: the grid point $h = 3/10$
+Update (2026-10-30): two more fields were certified at the same seed length $n_0 = 8$: the grid point $h = 3/10$
 (seed $(8, 25/4)$, $\Delta_L \ge 0.300395$) and the near-critical point $h = 1/5$ (seed
 $(8, 27/4)$, $\Delta_L \ge 0.108826$). The floating-point 16-site scan (`scripts/scan.jl 16`)
 shows an admissible seed at $n_0 = 8$ down to $h = 1/5$ (max-$\beta$ min-purity $0.881$ at
