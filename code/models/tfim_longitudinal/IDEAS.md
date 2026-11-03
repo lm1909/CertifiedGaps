@@ -8,6 +8,36 @@ Each unit cell is a single spin-1/2 site. The single-cell reflection theorem req
 2. **Cluster expansions or transfer-operator contraction.** High-field or strong-coupling expansions could reach large $n_0$, but require proved remainder bounds not yet implemented in the core library. Since a longitudinal field opens a substantial gap across the phase diagram, small rings are expected to suffice.
 3. **Translation-resolved complete spectra with verified enclosures (chosen).** For $h > 0$, $\mathbb{Z}_2$ spin-flip parity is broken, and spatial reflection exchanges momentum $`k`$ with $`-k`$ (giving an independent parity only at $`k = 0, \pi`$). We therefore block-diagonalize $`H_L`$ into translation momentum sectors of dimension $`\approx 2^L / L`$ and enclose the complete spectrum of each block with verified residual, orthogonality, polar-factor and Weyl bounds under explicit IEEE binary64 rounding-error allowances (now the shared core pipeline `certify_gap`, which also uses $`A_{-k} = \overline{A_k}`$ to build only $0 \le k \le L/2$).
 
+## Recurrence portability audit (November 2026)
+
+On aarch64 Linux, the pinned CRlibm binary returns incorrect directed `log1p` values for
+some binary64 inputs. Exact rational series enclosures prove failures in both directions;
+the unchanged checker also fails to reproduce a stored interval bound. This affects the
+shared recurrence used by several models, so its repair belongs in the core package.
+
+Candidate routes, before implementation:
+
+1. **Select the package's MPFR backend globally.** The documented
+   `IntervalArithmetic.CRlibm.setup(true)` repairs manual replay, but redefines dependency
+   methods throughout the process. Doing this during package initialization would complicate
+   downstream precompilation and change unrelated users of IntervalArithmetic.
+2. **Recompute all bounds with a different interval precision.** This would change stored
+   certified numbers and require unnecessary certificate regeneration. It does not address
+   the defective binary64 operation for other callers.
+3. **Evaluate interval `log1p` locally through MPFR (chosen).** Lift machine-float intervals to
+   BigFloat intervals, evaluate `log1p` with directed rounding, and convert outward to the
+   original type. Route both the defect map and the logarithmic tail through the helper.
+   Ordinary floating-point diagnostics keep their existing dispatch. This needs no global
+   settings, dependency changes, or certificate edits. Exact rational series tests will check
+   both rounding directions independently of MPFR, and existing certificate replay will test
+   compatibility.
+
+The repair adds a constant amount of scalar work per recurrence step, independent of $n_0$
+and $\beta_0$; it does not increase the cost or memory of the seed spectra. Validation must
+include all model checkers and tests because they share the core arithmetic. Passing a finite
+regression set does not verify the entire external rounding library, and this work does not
+address the separate high-precision BigFloat seed-defect issue.
+
 ## Outcome
 
 The even seed length $n_0 = 6$ (requiring complete spectra of $6$- and $12$-site rings, with maximum sector dimension $352$ at $L = 12$) produced admissible seeds at all 30 grid points $(g, h)$, certifying uniform spectral gaps across the entire parameter grid without needing larger rings (see [`README.md`](README.md)).
