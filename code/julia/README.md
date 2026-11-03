@@ -23,6 +23,7 @@ identifiers do not collide with model-specific code. The top-level module `Certi
 |---|---|---|
 | `Recurrence` | `src/Recurrence.jl`, `src/recurrence/` | the exact doubling recurrence in any number type (`map.jl`), outward-rounded interval gap bounds (`certified.jl`), and the exact-rational doubling chain with the analytic tail bound used by the certificates (`rational.jl`) |
 | `ExactArithmetic` | `src/ExactArithmetic.jl` | rational enclosure helpers with outward rounding: `log_enclosure`, `power_interval`, `integer_root`, `first_true`, `round_up`/`round_down`, and exact fraction parsers |
+| `IntervalFunctions` | `src/IntervalFunctions.jl` | internal MPFR evaluations for machine-float interval transcendental functions used by the recurrence, seed and exclusion bounds, and verified partition functions and Fourier phases |
 | `Results` | `src/Results.jl` | `write_result` (atomic JSON output; pretty, or single-line with `compact = true`; gzip-compressed when the path ends in `.gz`), `read_result`/`read_result_bytes`/`read_exact_json` (plain or `.json.gz`), `source_hashes`/`file_hashes`, `model_provenance` (model-local `source_sha256` and core `core_sha256`, keyed by repository path) and `verify_source_hashes` (compares the in-scope paths only), `run_metadata`, and `parse_exact_json` (which parses arbitrary-precision integers and rationals directly without passing through `Float64`) |
 | `Spins` | `src/Spins.jl` | `spin_matrices(s)`, `integer_ladders(j)`, `binomial_weights(j)`, and `cartesian_generators(s)`; exact matrices for RP identities: `exact_pauli(T)`, `exact_spin_half(T)` (with the real antisymmetric `iy`) and `integer_cartesian_generators()` (spin 1) |
 | `ReflectionPositivity` | `src/ReflectionPositivity.jl` | floating-point screening utilities: `realign`, `rp_test`, and `rp_decomposition` |
@@ -118,3 +119,23 @@ structure (such as symmetry-sector trace recursion, polymer expansions, or varia
   Similarly, `Purification.purified_log_partition` is an uncertified tensor-network diagnostic.
 
 When running multiple Julia processes concurrently on a shared machine, set `OPENBLAS_NUM_THREADS=1`.
+
+The core certificate pipeline evaluates machine-float interval transcendental functions through
+BigFloat intervals (MPFR), then converts outward to the original endpoint type. The pinned
+CRlibm binary on aarch64 Linux has reproducible non-enclosures for `exp`, `expm1`, and `log1p`;
+exact rational regression tests check the failing inputs independently of MPFR. This local
+helper preserves interval decorations and does not change process-wide package settings.
+The basic arithmetic and the verified-spectrum IEEE binary64 assumptions above still apply.
+
+This does not change model-specific calls made directly to IntervalArithmetic, or repair the
+separate BigFloat seed-defect precision issue. On affected platforms, scripts with their own
+interval transcendental calls can select CRlibm's documented MPFR backend before loading the
+script, using its [public setup function](https://github.com/JuliaIntervals/CRlibm.jl/blob/v1.0.2/src/CRlibm.jl):
+
+```sh
+julia --project=code/julia -e '
+    using IntervalArithmetic
+    IntervalArithmetic.CRlibm.setup(true)
+    include(ARGS[1])
+' code/models/tfim_longitudinal/check.jl
+```

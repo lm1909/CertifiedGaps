@@ -21,7 +21,7 @@ First component of one doubling step from the diagonal seed (ε, ε). Its fixed 
 diagonal_defect(ε) = squaring_defect(1 - (1 - ε)^3)
 
 "z(a, b) = 1 - (1-b)(1-a)², written without cancellation."
-zdefect(a, b) = -expm1(log1p(-b) + 2 * log1p(-a))
+zdefect(a, b) = -_expm1(_log1p(-b) + 2 * _log1p(-a))
 
 "One step of the exact recurrence; `nothing` when an argument of f leaves [0, 2-√2)."
 function doubling_map(s, t)

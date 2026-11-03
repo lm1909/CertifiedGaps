@@ -14,6 +14,7 @@ module Exclusions
 using IntervalArithmetic
 using ..ExactArithmetic: RationalBig, round_down, parse_rational
 using ..Recurrence: to_interval
+using ..IntervalFunctions: _expm1
 using ..VerifiedSpectra: BlockSpectrum, shifted_log_partition, ground_energy_enclosure
 
 export rejection, exclude_all_beta, check_exclusion
@@ -73,7 +74,7 @@ function _window(data, lo::Q, hi::Q)
     β = interval(Float64(lo), Float64(hi))
     logps = data.F(true, lo) - 2data.F(false, hi) - β * to_interval(data.b[1] - 2data.a[1])
     logpt = data.F(true, 2hi) - 2data.F(true, hi)
-    return _lower(-expm1(logps)), _lower(-expm1(logpt))
+    return _lower(-_expm1(logps)), _lower(-_expm1(logpt))
 end
 
 # Rejection of every β ≥ B: with δ = lower E₀(2n) − 2·upper E₀(n) > 0,
@@ -81,7 +82,7 @@ end
 function _tail(data, B::Q)
     δ = data.b[1] - 2data.a[2]
     δ > 0 || return nothing
-    s = _lower(-expm1(data.F(true, B) - to_interval(B * δ)))
+    s = _lower(-_expm1(data.F(true, B) - to_interval(B * δ)))
     rejection(s, zero(Q)) === nothing && return nothing
     return Dict("beta_from" => _token(B), "ground_mismatch_lower" => _token(δ),
         "eps_s_lower" => _token(s), "eps_t_lower" => "0")

@@ -11,6 +11,7 @@ using IntervalArithmetic
 using ..ExactArithmetic: RationalBig
 using ..ExactDiagonalization: logZ_bounds
 using ..Recurrence: certified_gap_bound
+using ..IntervalFunctions: _expm1, _exp
 
 export SeedResult, seed_defects, spectral_defects, scan_seeds, best_seed, seed_record,
     purity_peaks
@@ -53,7 +54,7 @@ end
 # Enclosure of 1 − eˣ, the intersection of the two enclosures 1 − exp(x) and −expm1(x), and
 # its exact rational upper bound.
 function _defect(x::Interval)
-    d = intersect_interval(1 - exp(x), -expm1(x))
+    d = intersect_interval(1 - _exp(x), -_expm1(x))
     return d, RationalBig(sup(d))
 end
 

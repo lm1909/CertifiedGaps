@@ -33,6 +33,7 @@ using ..ExactArithmetic: RationalBig, parse_rational
 using ..Results: write_result, read_result
 using ..RingModels: RingModel, isreal_model, _reduce, _monomial
 using ..Recurrence: to_interval
+using ..IntervalFunctions: _exp, _log, _cospi, _sinpi
 using ..ExactDiagonalization: PartialSpectrum
 
 export BlockSpectrum, verified_eigen, enclose_hermitian, ring_blocks, verified_ring_spectrum,
@@ -306,7 +307,7 @@ struct _Arith{exact} end
 _zero(::_Arith{true}) = complex(interval(0.0), interval(0.0))
 _zero(::_Arith{false}) = 0.0im
 _cispi(::_Arith{true}, x::Rational) =
-    complex(cospi(interval(Float64, x)), sinpi(interval(Float64, x)))
+    complex(_cospi(interval(Float64, x)), _sinpi(interval(Float64, x)))
 _cispi(::_Arith{false}, x::Rational) = cispi(Float64(x))
 _sqrt_ratio(::_Arith{true}, a, b) = sqrt(interval(Float64, a) / interval(Float64, b))
 _sqrt_ratio(::_Arith{false}, a, b) = sqrt(a / b)
@@ -478,11 +479,11 @@ function shifted_log_partition(spectrum::AbstractVector{BlockSpectrum}, β, shif
     inf(b) >= 0 || throw(ArgumentError("β must be nonnegative"))
     total = interval(0.0)
     for s in spectrum
-        part = sum(exp(-b * (interval(c) - s0)) for c in s.centers)
+        part = sum(_exp(-b * (interval(c) - s0)) for c in s.centers)
         r = sup(to_interval(s.radius))
-        total += s.multiplicity * part * exp(b * interval(-r, r))
+        total += s.multiplicity * part * _exp(b * interval(-r, r))
     end
-    return log(total)
+    return _log(total)
 end
 
 """

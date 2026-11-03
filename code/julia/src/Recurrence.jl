@@ -18,6 +18,7 @@ module Recurrence
 
 using IntervalArithmetic
 using ..ExactArithmetic: RationalBig, frac, round_up, round_down, log_enclosure
+using ..IntervalFunctions: _log1p, _expm1, _log, _exp
 
 include("recurrence/map.jl")
 include("recurrence/certified.jl")

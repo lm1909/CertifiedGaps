@@ -11,10 +11,10 @@
 
 export certified_gap_bound, to_interval
 
-const LOG_HALF = log(interval(1) / 2)
-const LOG_ZSTAR = log(interval(2) - sqrt(interval(2)))       # f(z) < 1 iff z < 2 − √2
-const LOG_EPS_LOW = log(interval(12731) / 100000)            # 0.12731 < ε⋆ (Theorem 2.17)
-const LOG_TENTH = log(interval(1) / 10)
+const LOG_HALF = _log(interval(1) / 2)
+const LOG_ZSTAR = _log(interval(2) - sqrt(interval(2)))       # f(z) < 1 iff z < 2 − √2
+const LOG_EPS_LOW = _log(interval(12731) / 100000)            # 0.12731 < ε⋆ (Theorem 2.17)
+const LOG_TENTH = _log(interval(1) / 10)
 
 # log z(a, b) from log a, log b. For tiny defects z = 2a + b − (a² + 2ab − a²b) is enclosed by
 # log(2a + b) + [log(1 − a − b), 0]; otherwise use the exact cancellation-free formula.
@@ -28,23 +28,23 @@ function _logz(la::Interval, lb::Interval)
         # log(1 − a − b) > −1e-20 since a + b < 4e-22, which is below one ulp of |log z| > 50
         return interval(prevfloat(lower), upper)
     end
-    return log(zdefect(exp(la), exp(lb)))
+    return _log(zdefect(_exp(la), _exp(lb)))
 end
 
 # Enclosure of log(2eˣ + eʸ) for floats x, y. The shift c is the upper end of the larger exponent,
 # so every argument of exp is ≤ 0 even when an ulp of x is large.
 function _log2a_plus_b(x::Float64, y::Float64)
-    u, v = log(interval(2)) + x, interval(y)
+    u, v = _log(interval(2)) + x, interval(y)
     c = sup(max(u, v))
-    return c + log(exp(u - c) + exp(v - c))
+    return c + _log(_exp(u - c) + _exp(v - c))
 end
 
 # log of a seed defect. A zero defect is raised to floatmin: R is order-preserving, so a larger
 # seed still gives a valid (weaker) bound, and log stays finite.
-_log_defect(ε) = log(max(to_interval(ε), interval(floatmin(Float64))))
+_log_defect(ε) = _log(max(to_interval(ε), interval(floatmin(Float64))))
 
-_logf(lz::Interval) = 2lz - log(interval(2)) - 2log1p(-exp(lz))    # log f(z)
-_logr(lz::Interval) = lz - log1p(-exp(lz))                         # log(z/(1 − z))
+_logf(lz::Interval) = 2lz - _log(interval(2)) - 2 * _log1p(-_exp(lz)) # log f(z)
+_logr(lz::Interval) = lz - _log1p(-_exp(lz))                       # log(z/(1 − z))
 
 """
     certified_gap_bound(εₛ, εₜ, β₀; J = 48)
@@ -86,7 +86,7 @@ function _certify_tail(lz, β, J, j_adm)
     lr = _logr(lz)
     βJ = β * interval(2)^J
     bJ = -lr / βJ
-    tail = log(interval(5)) / βJ
+    tail = _log(interval(5)) / βJ
     ok = j_adm !== nothing && sup(lr) <= inf(LOG_TENTH)
     return (bound = ok ? inf(bJ - tail) : nothing, upper = sup(bJ), j_admissible = j_adm,
         log_rJ = sup(lr))
