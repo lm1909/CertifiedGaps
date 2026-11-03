@@ -38,6 +38,20 @@ include all model checkers and tests because they share the core arithmetic. Pas
 regression set does not verify the entire external rounding library, and this work does not
 address the separate high-precision BigFloat seed-defect issue.
 
+The first exact regression run exposed another failure in `expm1`: at binary64 input
+`0xbfc3aa3729f5df13`, the directed lower endpoint lies above the exact value. Fixing that
+still left a stored bound unreproduced; tracing its orbit exposed incorrect upper endpoints
+of `exp` at `0xbff5c2f012268edd` and `0xbff5c2f012268ec1`. Alternating Taylor bounds prove
+these failures with exact rationals. A `log1p`-only repair is therefore insufficient.
+
+The chosen route now covers the core pipeline's interval exponential, logarithm, `expm1`,
+`log1p`, and Fourier-phase sine/cosine calls through one shared helper. It leaves the
+existing basic arithmetic and spectral perturbation proofs in place. Partition summation
+still takes linear work in the number of stored levels, with a larger constant per
+transcendental evaluation. Model-specific calls directly to IntervalArithmetic remain
+outside this helper; the documented process-wide MPFR switch remains relevant for those
+on an affected platform. A successful core replay is not a validation of the native library.
+
 ## Outcome
 
 The even seed length $n_0 = 6$ (requiring complete spectra of $6$- and $12$-site rings, with maximum sector dimension $352$ at $L = 12$) produced admissible seeds at all 30 grid points $(g, h)$, certifying uniform spectral gaps across the entire parameter grid without needing larger rings (see [`README.md`](README.md)).
