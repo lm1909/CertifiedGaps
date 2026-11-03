@@ -87,3 +87,45 @@ end
     @test length(read_result(joinpath(C.ROOT, "results", "seeds.json"))["points"]) == 30
     @test length(lean) == 30
 end
+
+@testset "Two-site periodic convention" begin
+    for (g, h) in C.points()
+        # The periodic sum contains both (1,2) and (2,1), even when L = 2.
+        H = -2kron(PZ, PZ) - g * (kron(PX, I(2)) + kron(I(2), PX)) -
+            h * (kron(PZ, I(2)) + kron(I(2), PZ))
+        spec = verified_ring_spectrum(C.longitudinal(g, h), 2)
+        @test levels(spec) ≈ eigvals(Symmetric(Float64.(H))) atol = 1e-12
+    end
+    # A degenerate ground level must not acquire a positive certified gap.
+    @test all(gap[1] == 0 for gap in C.short_gap_enclosures(0//1, 0//1))
+end
+
+@testset "Finite bridge and obstructions" begin
+    rows = C.check_bridge()
+    @test [count(r -> r["L0"] == string(L), rows) for L in (2, 4, 6)] == [14, 8, 8]
+    @test rows[16]["g"] == "1//1" && rows[16]["h"] == "1//20"
+    @test rows[16]["L0"] == "2"
+    @test rows[1]["L0"] == "6"
+
+    mktempdir() do dir
+        path = joinpath(dir, "finite_bridge.json")
+        function fails(f)
+            data = read_result(C.BRIDGE_PATH)
+            f(data)
+            write_result(path, data)
+            @test_throws Exception C.check_bridge(; path)
+        end
+        fails(c -> pop!(c["points"]))
+        fails(c -> c["points"][1]["g"] = "1//2")
+        fails(c -> c["points"][1]["source_sha256"] = "0"^64)
+        fails(c -> c["points"][1]["source_certificate"] = "wrong.json.gz")
+        fails(c -> c["points"][1]["eps_s"] = "0//1")
+        fails(c -> c["points"][1]["bound"] = "1//1")
+        fails(c -> c["points"][1]["L0"] = "2")
+        fails(c -> pop!(c["points"][1]["rings"]))
+        fails(c -> c["points"][1]["rings"][1]["L"] = "4")
+        fails(c -> c["points"][1]["rings"][1]["gap_lower"] = "1//1")
+        fails(c -> c["points"][1]["rings"][1]["gap_upper"] = "0//1")
+        fails(c -> empty!(c["metadata"]["source_sha256"]))
+    end
+end

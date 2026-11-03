@@ -58,6 +58,56 @@ build that produced it. (The earlier local checker instead required each fresh e
 interval to lie inside a stored interval of doubled radius $2\eta$; the core certificate stores
 no eigenvalues.)
 
+## Finite gap bridge (2026-11-04)
+
+Let $b$ be the exact binary rational represented by the seed certificate's
+`interval_bound_decimal`. The spacetime bootstrap already proves uniqueness and
+$\Delta_L\ge b$ for every even $L\ge6$. The only missing lengths below six are two and four.
+For each, the shared verified-spectra pipeline encloses the full spectrum, with multiplicities
+adding to $2^L$, and `spectral_gap_enclosure` gives exact rational endpoints
+$a_L\le\Delta_L\le c_L$. Round $a_L$ down and $c_L$ up to multiples of $10^{-9}$ to leave room
+for platform-dependent eigensolver residuals while keeping the certificate portable.
+
+- If $a_2,a_4\ge b$, the same bound and uniqueness hold for every even $L\ge2$.
+- If $a_4\ge b$ but $c_2<b$, the minimal threshold is four.
+- If $c_4<b$, the minimal threshold is six.
+
+The computed intervals decide all 30 points: respectively 14, eight, and eight. These are
+finite gap estimates independent of $\beta_0$, not new seed defects. At two sites, both terms
+in the periodic bond sum remain present. A regression test compares the shared spectrum
+with the independently assembled matrix
+
+```math
+H_2=-2Z\otimes Z-g(X\otimes I+I\otimes X)-h(Z\otimes I+I\otimes Z).
+```
+
+`src/FiniteBridge.jl` contains only orchestration around the shared verifier. The JSON bridge
+stores exact endpoints, thresholds, and the original seed's parameters and bound. Each row
+pins its source seed certificate by SHA-256. Both checker modes rerun the small spectra and
+require the fresh intervals inside the stored rational endpoints. They also check the
+original model, RP identity, seeds, recurrence and source provenance with `check_point`.
+The full mode adds the six- and twelve-site seed spectra. Tests corrupt parameters, seeds,
+source hashes, ring lengths, gap endpoints and thresholds to check rejection paths.
+
+The existing Lean theorems still quantify over even rings of at least six sites. The YAML
+field `lean.L0` records that scope separately from the computer certificate's `lengths.L0`.
+The validator compares it to the Lean audit data and permits a Lean headline tier only if
+the theorem covers both the value and the lengths. No Lean theorem or seed hypothesis changed.
+
+Adding the finite checker changed the model-local source set. The
+`certify.jl --refresh-provenance` mode preserves all mathematical data, refreshes only source
+metadata, checks each replacement with the core, and rebuilds the bridge. The old creation
+environment is retained; the refresh run and previous certificate hash are separate metadata.
+The comparison against upstream commit `682105277771b13301554925e7d3bc314da5dd31` checks every
+non-metadata field of all 30 compressed certificates, including complete recurrence data and
+spectral summaries, and checks `seeds.json` byte for byte.
+
+On aarch64 Linux, the unmodified checker first failed at $g=3/4,h=1/20$ because the interval
+bound did not reproduce. `IntervalArithmetic.CRlibm.setup(true)` selects CRlibm.jl's documented
+MPFR implementation in the current Julia process. With that backend all original interval
+bounds reproduce exactly and the full spectral replay passes; no custom rounding method or
+package edit is used. The README records the invocation and measured timings.
+
 ## Seed selection
 
 `BETA0` was selected by the earlier floating-point scan over $`n_0 \in \{2, 4, 6\}`$ and

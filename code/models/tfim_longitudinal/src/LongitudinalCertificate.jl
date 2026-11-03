@@ -174,4 +174,6 @@ function check_seed_table()
     true
 end
 
+include("FiniteBridge.jl")
+
 end

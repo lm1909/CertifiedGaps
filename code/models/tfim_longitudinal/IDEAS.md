@@ -44,3 +44,17 @@ own sources. Record the measured cost and any platform limitations in `README.md
 The even seed length $n_0 = 6$ (requiring complete spectra of $6$- and $12$-site rings, with maximum sector dimension $352$ at $L = 12$) produced admissible seeds at all 30 grid points $(g, h)$, certifying uniform spectral gaps across the entire parameter grid without needing larger rings (see [`README.md`](README.md)).
 
 The route was later re-implemented on the shared core (`RingModel` in the physical frame, `certify_gap` per point) at the same seeds; the core enclosures are tighter, so every seed defect decreased and all 30 points remain certified (see [`METHOD.md`](METHOD.md)).
+
+The finite-gap extension succeeded at 22 points without changing a seed or bound: 14 now
+cover every even length from two sites, and eight from four sites. Eight points retain their
+threshold of six sites; verified upper endpoints prove that their four-site gaps are below
+the stored interval bounds. At each threshold-four point the two-site gap likewise proves
+the obstruction. The default checker replays all 60 finite spectra; the full checker also
+replayed the 60 seed spectra successfully.
+
+The host's default CRlibm backend did not reproduce one original interval bound. Using the
+package's documented, process-local MPFR backend reproduced all 30 and passed the full replay.
+The old seed certificates require only a metadata refresh for the added source/checker;
+their non-metadata contents are preserved. The leaderboard now supports an explicit
+companion Lean threshold, so the existing theorems remain linked and audited at six sites
+while the shorter coverage has computer-certified tier.
