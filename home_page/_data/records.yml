@@ -32,7 +32,9 @@
 #                 theorem below proves at least that bound (the validator checks this exactly);
 #                 the page then takes the Lean kind from the generated lean_records.json.
 #   lean          {name, r, beta, decimal}: the Lean theorem Delta_L > log(r)/beta for every even
-#                 L >= lengths.L0; must match lean_records.json. When the theorem starts from
+#                 L >= lengths.L0; optional L0 overrides the theorem's length threshold when
+#                 a computer certificate covers shorter rings. A Lean tier requires the theorem
+#                 to cover the headline lengths. Must match lean_records.json. When it starts from
 #                 another seed than the row, lean.certificate names the certificate of that seed
 #   certificate   path of the certificate data; check: path of the checker (default
 #                 code/models/<slug>/check.jl)

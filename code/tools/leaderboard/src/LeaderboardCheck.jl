@@ -275,12 +275,16 @@ end
     lean_covers(bound, lean, headline, leanbound, lengths) -> Bool
 
 Whether the Lean theorem Δ_L > log(r)/β for every even L ≥ L0 implies the headline claim: the
-lengths are even and periodic, and the Lean value is at least the headline value (identical
+lengths are even and periodic, its threshold is no larger than the headline threshold,
+and the Lean value is at least the headline value (identical
 {r, beta}, or disjoint outward enclosures). Throws when the enclosures overlap.
 """
 function lean_covers(bound, lean, headline, leanbound, lengths)
     something(getk(lengths, "parity"), "even") == "even" &&
     something(getk(lengths, "boundary"), "periodic") == "periodic" || return false
+    L0 = get(lean, "L0", lengths["L0"])
+    L0 isa Integer && L0 > 0 || throw(ArgumentError("lean.L0 must be a positive integer"))
+    L0 <= lengths["L0"] || return false
     same =
         haskey(bound, "r") &&
         parse_exact(bound["r"]) == parse_exact(lean["r"]) &&
@@ -391,6 +395,9 @@ function check_record!(report, rec, ctx)
     if haskey(LEAN_KIND, tier) && !(lean isa AbstractDict)
         err!(report, "$where: tier $tier needs a Lean record")
     elseif lean isa AbstractDict
+        leanL0 = get(lean, "L0", L0)
+        (leanL0 isa Integer && leanL0 > 0) ||
+            err!(report, "$where: lean.L0 must be a positive integer")
         name = getk(lean, "name")
         if !(name isa AbstractString) || !occursin(LEAN_NAME, name)
             err!(report, "$where: lean.name must be Leaderboard.Records.<Model>.<point>")
@@ -414,14 +421,15 @@ function check_record!(report, rec, ctx)
                     haskey(LEAN_KIND, tier) &&
                     err!(
                         report,
-                        "$where: tier $tier but the Lean bound is weaker than the headline bound; use the certificate's tier",
+                        "$where: tier $tier but the Lean bound is weaker than the headline " *
+                        "claim in value or length coverage; use the certificate's tier",
                     )
             end
         catch e
             err!(report, "$where: lean: $(sprint(showerror, e))")
         end
-        if json !== nothing && name isa AbstractString && L0 isa Integer
-            kind = check_lean_json!(report, where, lean, L0, json)
+        if json !== nothing && name isa AbstractString && leanL0 isa Integer
+            kind = check_lean_json!(report, where, lean, leanL0, json)
             haskey(LEAN_KIND, tier) &&
                 kind isa AbstractString &&
                 kind != LEAN_KIND[tier] &&

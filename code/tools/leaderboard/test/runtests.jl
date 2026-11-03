@@ -37,12 +37,13 @@ record(;
     contributors = "[LionSR]",
     params = """{g: "1/4"}""",
     certificate = "code/models/toy/results/certificate.json",
+    L0 = 6,
 ) = """
   - id: toy-p
     family: toy
     parameter: 'g = 1/4'
     params: $params
-    lengths: {L0: 6}
+    lengths: {L0: $L0}
     bound: $bound
     seed: $seed
     numerical_gap: "1.19"
@@ -140,6 +141,25 @@ fails(report, re) = any(e -> occursin(re, e), report.errors)
         @test fails(check(record(bound = sharper)), "weaker than the headline")
         @test fails(check(record(tier = "certified")), "tier must be lean")
         @test passed(check(record(bound = """{value: "39/100", decimal: "0.39"}""")))
+    end
+
+    @testset "companion Lean length coverage" begin
+        companion = """{name: Leaderboard.Records.Toy.p, L0: 6, r: "13480",
+            beta: "97/4", decimal: "0.3921"}"""
+        # A finite computer bridge can cover shorter rings without extending the theorem.
+        @test passed(check(record(tier = "certified", L0 = 2, lean = companion);
+            json = lean_json()))
+        @test fails(check(record(L0 = 2, lean = companion)), "length coverage")
+        @test fails(check(record(tier = "certified", L0 = 2, lean = companion);
+            json = lean_json(L0 = 4)), "L0")
+        @test fails(check(record(tier = "certified", L0 = 2); json = lean_json()), "L0")
+        @test passed(check(record(L0 = 8, lean = companion); json = lean_json()))
+        @test fails(check(record(tier = "certified", L0 = 8, lean = companion)),
+            "tier must be lean")
+        for invalid in ("0", "-2", "2.5", "\"6\"")
+            @test fails(check(record(lean = replace(companion, "L0: 6" => "L0: $invalid"))),
+                "positive integer")
+        end
     end
 
     @testset "rows against their certificates" begin

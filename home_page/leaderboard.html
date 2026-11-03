@@ -96,8 +96,9 @@ usemathjax: true
   {%- endfor -%}
   {%- assign gr = gr | split: "|" -%}{%- assign gc = gc | split: "|" %}
 <p>The table gives the certified gap bound for each ${{ f.grid.rows }}$ (rows) and
-  ${{ f.grid.cols }}$ (columns), for all even $L \ge {{ rows[0].lengths.L0 }}$. Lean 4 proves all
-  points. At the starred point, Lean 4 also checks the seed.</p>
+  ${{ f.grid.cols }}$ (columns). The detailed table lists the length thresholds;
+  a companion Lean 4 bound may have a larger threshold, shown beside it.
+  At the starred point, Lean 4 also checks the seed.</p>
 <div class="table-wrap"><table class="grid">
   <thead><tr><th>${{ f.grid.rows }} \backslash {{ f.grid.cols }}$</th>{% for y in gc %}<th class="num">${{ y }}$</th>{% endfor %}</tr></thead>
   <tbody>
@@ -126,7 +127,14 @@ usemathjax: true
     <tr{% unless f.grid %} id="{{ r.id }}"{% endunless %}>
       {% unless plain %}<td>{{ r.parameter }}</td>{% endunless %}
       <td class="num">{% include sig4.html x=r.bound.decimal %}</td>
-      <td class="num">{% if lr %}<a href="{{ docs }}?pattern={{ r.lean.name | url_encode }}#doc" title="{{ r.lean.name }}">{% include sig4.html x=r.lean.decimal %}</a>{% if lr.kind == "unconditional" %}*{% endif %}{% else %}—{% endif %}</td>
+      <td class="num">{% if lr %}
+        <a href="{{ docs }}?pattern={{ r.lean.name | url_encode }}#doc"
+           title="{{ r.lean.name }}">{% include sig4.html x=r.lean.decimal %}</a>
+        {%- if lr.kind == "unconditional" %}*{% endif %}
+        {% if r.lean.L0 and r.lean.L0 != r.lengths.L0 %}
+          <br><small>even $L \ge {{ r.lean.L0 }}$</small>
+        {% endif %}
+      {% else %}—{% endif %}</td>
       <td class="num">{% if r.numerical_gap %}{{ r.numerical_gap | slice: 0, 6 }}{% else %}—{% endif %}</td>
       <td class="num">({{ r.seed.n0 }}, {{ r.seed.beta0 }})</td>
       <td class="num">{{ r.lengths.L0 }}</td>
