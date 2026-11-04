@@ -57,15 +57,16 @@ end
 # Enclosure of 1 − eˣ, the intersection of the two enclosures 1 − exp(x) and −expm1(x), and
 # its exact rational upper bound.
 function _defect(x::Interval)
-    if x isa Interval{BigFloat}
-        bits = max(precision(inf(x)), precision(sup(x)))
-        if bits > precision(BigFloat)
-            # BigFloat negation and rational conversion otherwise round to ambient precision.
-            return setprecision(() -> _defect(x), BigFloat, bits)
-        end
-    end
     d = intersect_interval(1 - exp(x), -expm1(x))
     return d, RationalBig(sup(d))
+end
+
+function _defect(x::Interval{BigFloat})
+    bits = max(precision(BigFloat), precision(inf(x)), precision(sup(x)))
+    # BigFloat negation and rational conversion otherwise round to ambient precision.
+    return setprecision(BigFloat, bits) do
+        invoke(_defect, Tuple{Interval}, x)
+    end
 end
 
 "Seed defects as a function of (n, β), from ring spectra keyed by length."

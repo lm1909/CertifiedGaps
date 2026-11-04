@@ -4,8 +4,6 @@ using CertifiedGaps.ReflectionPositivity, CertifiedGaps.ExactDiagonalization
 using CertifiedGaps.Models, CertifiedGaps.Seeds
 using ITensors, ITensorMPS, CertifiedGaps.Purification
 
-include("seed_precision.jl")
-
 @testset "CertifiedGaps" begin
     @testset "recurrence constants (survey §2.6)" begin
         @test fixed_point_bracket_holds()
@@ -298,4 +296,5 @@ include("seed_precision.jl")
 end
 
 include(joinpath(@__DIR__, "ring_certificates.jl"))
+include(joinpath(@__DIR__, "seed_precision.jl"))
 include(joinpath(@__DIR__, "certified_mpo", "runtests.jl"))
