@@ -4,6 +4,8 @@ using CertifiedGaps.ReflectionPositivity, CertifiedGaps.ExactDiagonalization
 using CertifiedGaps.Models, CertifiedGaps.Seeds
 using ITensors, ITensorMPS, CertifiedGaps.Purification
 
+include("seed_precision.jl")
+
 @testset "CertifiedGaps" begin
     @testset "recurrence constants (survey §2.6)" begin
         @test fixed_point_bracket_holds()

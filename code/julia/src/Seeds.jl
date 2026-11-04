@@ -43,6 +43,10 @@ is the smaller of the upper ends of `1 − exp(x)` and `−expm1(x)`, both valid
 never exceeds the plain `1 − exp` evaluation on the same inputs and, with correctly rounded
 `expm1` (the default), equals a directed-rounding `−expm1`. No sign is imposed: callers that
 need 0 ≤ ε < 1 check it.
+
+BigFloat evaluation and rational extraction use at least the precision of both interval
+endpoints, even when the caller has since lowered the ambient precision. The caller's
+precision is restored on return.
 """
 function seed_defects(logZn::Interval, logZ2n::Interval, logZ2n_2β::Interval)
     defect_s, eps_s = _defect(logZ2n - 2logZn)
@@ -53,6 +57,13 @@ end
 # Enclosure of 1 − eˣ, the intersection of the two enclosures 1 − exp(x) and −expm1(x), and
 # its exact rational upper bound.
 function _defect(x::Interval)
+    if x isa Interval{BigFloat}
+        bits = max(precision(inf(x)), precision(sup(x)))
+        if bits > precision(BigFloat)
+            # BigFloat negation and rational conversion otherwise round to ambient precision.
+            return setprecision(() -> _defect(x), BigFloat, bits)
+        end
+    end
     d = intersect_interval(1 - exp(x), -expm1(x))
     return d, RationalBig(sup(d))
 end
