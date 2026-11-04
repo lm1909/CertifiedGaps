@@ -33,10 +33,10 @@ Candidate routes, before implementation:
    compatibility.
 
 The repair adds a constant amount of scalar work per recurrence step, independent of $n_0$
-and $\beta_0$; it does not increase the cost or memory of the seed spectra. Validation must
-include all model checkers and tests because they share the core arithmetic. Passing a finite
-regression set does not verify the entire external rounding library, and this work does not
-address the separate high-precision BigFloat seed-defect issue.
+and $\beta_0$; it does not increase the required seed sizes or the asymptotic cost of their
+spectra. Validation must include all model checkers and tests because they share the core
+arithmetic. Passing a finite regression set does not verify the entire external rounding
+library, and this work does not address the separate high-precision BigFloat seed-defect issue.
 
 The first exact regression run exposed another failure in `expm1`: at binary64 input
 `0xbfc3aa3729f5df13`, the directed lower endpoint lies above the exact value. Fixing that
@@ -57,3 +57,10 @@ on an affected platform. A successful core replay is not a validation of the nat
 The even seed length $n_0 = 6$ (requiring complete spectra of $6$- and $12$-site rings, with maximum sector dimension $352$ at $L = 12$) produced admissible seeds at all 30 grid points $(g, h)$, certifying uniform spectral gaps across the entire parameter grid without needing larger rings (see [`README.md`](README.md)).
 
 The route was later re-implemented on the shared core (`RingModel` in the physical frame, `certify_gap` per point) at the same seeds; the core enclosures are tighter, so every seed defect decreased and all 30 points remain certified (see [`METHOD.md`](METHOD.md)).
+
+The November 2026 portability audit found that correcting only `log1p`, or only `log1p`
+and `expm1`, did not restore ordinary checker replay on aarch64. The expanded local MPFR
+helper reproduces all 30 stored interval bounds exactly, without changing a certificate or
+its model-local source hashes. The longitudinal-Ising tests also pass a fresh spectral replay
+at $g = 1$, $h = 1/20$. This is a mitigation of the shared pipeline: it neither diagnoses
+the native library's rounding failure nor validates model-specific calls outside the helper.
