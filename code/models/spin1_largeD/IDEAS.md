@@ -10,7 +10,7 @@ Stage 2 (the transfer-squaring and Weyl-transport extensions), followed by their
 The transfer-squaring code calls the shared `Seeds.seed_defects`, whose documented interface
 also accepts BigFloat interval inputs. Issue #114 reports that inputs computed at 512 bits
 can lose enclosure when evaluated at a lower ambient precision. This is a shared arithmetic
-repair, not a new large-$D$ certificate; no stored spectrum or certified bound should change.
+repair, not a new large-$`D`$ certificate; no stored spectrum or certified bound should change.
 
 Candidate routes, recorded before computing:
 
@@ -80,7 +80,7 @@ upstream. The full core suite, all model unit suites and existing fast checkers 
 machine-float tests on this aarch64 host use CRlibm's public process-local MPFR fallback for
 the separate pinned-binary problem; the precision regression passes without that fallback.
 The Float64 path and all stored certificates are unchanged. This repairs the shared interface
-without producing a new large-$D$ certificate or changing any gap bound.
+without producing a new large-$`D`$ certificate or changing any gap bound.
 
 - **Stage-1 ED seeds ($n_0 = 6$):** Complete verified $L = 6, 12$ spectra certify $D = 4$
   ($\Delta_L \ge 0.694746580$ at $\beta_0 = 9/4$) and $D = 1603/500 = 3.206$
