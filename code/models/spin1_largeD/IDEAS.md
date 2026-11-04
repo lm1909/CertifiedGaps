@@ -5,6 +5,31 @@ with single-site unit cells in the Cartesian reflection-positive basis. This mem
 candidate routes evaluated prior to Stage 1 (the verified exact-diagonalization baseline) and
 Stage 2 (the transfer-squaring and Weyl-transport extensions), followed by their outcomes.
 
+## Shared BigFloat seed precision (issue #114)
+
+The transfer-squaring code calls the shared `Seeds.seed_defects`, whose documented interface
+also accepts BigFloat interval inputs. Issue #114 reports that inputs computed at 512 bits
+can lose enclosure when evaluated at a lower ambient precision. This is a shared arithmetic
+repair, not a new large-$D$ certificate; no stored spectrum or certified bound should change.
+
+Candidate routes, recorded before computing:
+
+1. Require every caller to raise the ambient precision. This avoids the reported failure but
+   leaves the public interface fragile, especially when partition functions are computed in a
+   separate precision scope. It also duplicates a safeguard across models.
+2. Drop the cancellation-free `-expm1` enclosure. This may retain validity of `1 - exp(x)` but
+   loses relative accuracy for tiny defects, and does not fix rational endpoint extraction.
+3. Evaluate the shared defect intersection and rational extraction at the maximum of the
+   ambient precision and both endpoint precisions. This preserves the existing algorithm and
+   localizes the safeguard. Check that preceding directed interval arithmetic also preserves
+   enclosure, and restore the caller's precision after the calculation. **Chosen route.**
+
+The change uses a fixed number of transcendental operations at precision $p$, independent of
+$n_0$ and $\beta_0$ once the three partition-function enclosures are supplied. Its cost is
+controlled by the endpoint precision, not the Hilbert-space dimension. Exact rational Taylor
+enclosures should test tiny defects, ordinary defects, unequal endpoint precisions, and exact
+upper-end conversion without treating a second floating-point library as the sole referee.
+
 ## Candidate routes
 
 1. **Closed forms:** Because the nearest-neighbor Heisenberg exchange terms commute neither with the
@@ -43,6 +68,9 @@ Stage 2 (the transfer-squaring and Weyl-transport extensions), followed by their
    **Chosen Stage-2 route.**
 
 ## Outcome
+
+The issue #114 precision investigation is in progress; no new validation result or model
+certificate is claimed yet.
 
 - **Stage-1 ED seeds ($n_0 = 6$):** Complete verified $L = 6, 12$ spectra certify $D = 4$
   ($\Delta_L \ge 0.694746580$ at $\beta_0 = 9/4$) and $D = 1603/500 = 3.206$
