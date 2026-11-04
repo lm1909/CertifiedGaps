@@ -69,8 +69,18 @@ upper-end conversion without treating a second floating-point library as the sol
 
 ## Outcome
 
-The issue #114 precision investigation is in progress; no new validation result or model
-certificate is claimed yet.
+The issue #114 repair is implemented in the shared core. Exact Taylor bounds show that
+`expm1(X)` retains the issue's 512-bit enclosure; the subsequent negation at ambient precision
+256 loses it. Rational endpoint extraction also loses precision through Julia's `ldexp`.
+A BigFloat specialization now runs the existing defect calculation and extraction at the
+maximum of the ambient and both endpoint precisions, restoring the caller's precision.
+
+All 386 new enclosure and exact-endpoint assertions pass, whereas 79 fail against unchanged
+upstream. The full core suite, all model unit suites and existing fast checkers pass. Broader
+machine-float tests on this aarch64 host use CRlibm's public process-local MPFR fallback for
+the separate pinned-binary problem; the precision regression passes without that fallback.
+The Float64 path and all stored certificates are unchanged. This repairs the shared interface
+without producing a new large-$D$ certificate or changing any gap bound.
 
 - **Stage-1 ED seeds ($n_0 = 6$):** Complete verified $L = 6, 12$ spectra certify $D = 4$
   ($\Delta_L \ge 0.694746580$ at $\beta_0 = 9/4$) and $D = 1603/500 = 3.206$
