@@ -69,7 +69,9 @@ end
         @test hi <= Rational{BigInt}(sup(result))
     end
     for x in (0.125, 0.1, 0.5, 1.0, 2.0, 100.0)
-        lo, hi = log_enclosure(Rational{BigInt}(x))
+        q = Rational{BigInt}(x)
+        bounds = log_enclosure(q >= 1 ? q : inv(q))
+        lo, hi = q >= 1 ? bounds : (-last(bounds), -first(bounds))
         result = IF._log(interval(x))
         @test Rational{BigInt}(inf(result)) <= lo
         @test hi <= Rational{BigInt}(sup(result))

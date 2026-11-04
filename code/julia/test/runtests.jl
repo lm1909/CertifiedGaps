@@ -19,7 +19,8 @@ include("recurrence_rounding.jl")
             majorant_loss(interval(BigFloat, 3) / 97, interval(BigFloat, 1) / 3; J = 40)
         end
         @test ok && 0.129021 < sup(Λ) < 0.129022
-        Λ64, ok64 = majorant_loss(interval(3) / 97, interval(1) / 3; J = 40)
+        # Fewer steps keep the tail hypothesis away from binary64 underflow.
+        Λ64, ok64 = majorant_loss(interval(3) / 97, interval(1) / 3; J = 6)
         @test ok64 && 0.129021 < sup(Λ64) < 0.129022
         # The other reference values formerly printed by julia/scripts/constants.jl.
         B(x) = interval(BigFloat, x)
