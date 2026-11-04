@@ -55,7 +55,7 @@ end
 function gap_rates(orbit, β₀)
     map(enumerate(orbit)) do (j, (s, t))
         z = zdefect(s, t)
-        z < 1 // 2 ? log((1 - z) / z) / (β₀ * 2^(j - 1)) : oftype(z, -Inf)
+        z < 1 // 2 ? _log((1 - z) / z) / (β₀ * 2^(j - 1)) : oftype(z, -Inf)
     end
 end
 
@@ -123,9 +123,9 @@ function majorant_loss(R₀, P₀; J = 40)
     for j in 0:(J - 1)
         Rprev, Pprev = R, P
         R, P, η = Φ(R, P)
-        Λ += log(1 + η) / 2^(j + 1)
+        Λ += _log(1 + η) / 2^(j + 1)
     end
-    Λ += log(1 + η) / 2^J
+    Λ += _log(1 + η) / 2^J
     # Tail hypothesis: Φ(R_{J-1}, P_{J-1}) = (R_J, P_J) ≤ (R_{J-1}, P_{J-1}).
     tail_ok = _le(R, Rprev) && _le(P, Pprev)
     return Λ, tail_ok
