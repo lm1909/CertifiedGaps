@@ -2,12 +2,6 @@
 
 Each unit cell is a single spin-1/2 site. The single-cell reflection theorem requires an even seed length $n_0$; odd $n_0$ values serve only as diagnostics.
 
-## Candidate routes
-
-1. **Free fermions.** Only the $h = 0$ limit is solvable by Jordan–Wigner transformation into free fermions. For $h > 0$, the longitudinal field breaks $\mathbb{Z}_2$ fermion parity and renders the chain non-integrable (giving $E_8$ meson confinement in the ferromagnetic phase), so the $h = 0$ formula is used solely as a numerical cross-check.
-2. **Cluster expansions or transfer-operator contraction.** High-field or strong-coupling expansions could reach large $n_0$, but require proved remainder bounds not yet implemented in the core library. Since a longitudinal field opens a substantial gap across the phase diagram, small rings are expected to suffice.
-3. **Translation-resolved complete spectra with verified enclosures (chosen).** For $h > 0$, $\mathbb{Z}_2$ spin-flip parity is broken, and spatial reflection exchanges momentum $`k`$ with $`-k`$ (giving an independent parity only at $`k = 0, \pi`$). We therefore block-diagonalize $`H_L`$ into translation momentum sectors of dimension $`\approx 2^L / L`$ and enclose the complete spectrum of each block with verified residual, orthogonality, polar-factor and Weyl bounds under explicit IEEE binary64 rounding-error allowances (now the shared core pipeline `certify_gap`, which also uses $`A_{-k} = \overline{A_k}`$ to build only $0 \le k \le L/2$).
-
 ## Recurrence portability audit (November 2026)
 
 On aarch64 Linux, the pinned CRlibm binary returns incorrect directed `log1p` values for
@@ -52,11 +46,13 @@ transcendental evaluation. Model-specific calls directly to IntervalArithmetic r
 outside this helper; the documented process-wide MPFR switch remains relevant for those
 on an affected platform. A successful core replay is not a validation of the native library.
 
+## Candidate routes
+
+1. **Free fermions.** Only the $h = 0$ limit is solvable by Jordan–Wigner transformation into free fermions. For $h > 0$, the longitudinal field breaks $\mathbb{Z}_2$ fermion parity and renders the chain non-integrable (giving $E_8$ meson confinement in the ferromagnetic phase), so the $h = 0$ formula is used solely as a numerical cross-check.
+2. **Cluster expansions or transfer-operator contraction.** High-field or strong-coupling expansions could reach large $n_0$, but require proved remainder bounds not yet implemented in the core library. Since a longitudinal field opens a substantial gap across the phase diagram, small rings are expected to suffice.
+3. **Translation-resolved complete spectra with verified enclosures (chosen).** For $h > 0$, $\mathbb{Z}_2$ spin-flip parity is broken, and spatial reflection exchanges momentum $`k`$ with $`-k`$ (giving an independent parity only at $`k = 0, \pi`$). We therefore block-diagonalize $`H_L`$ into translation momentum sectors of dimension $`\approx 2^L / L`$ and enclose the complete spectrum of each block with verified residual, orthogonality, polar-factor and Weyl bounds under explicit IEEE binary64 rounding-error allowances (now the shared core pipeline `certify_gap`, which also uses $`A_{-k} = \overline{A_k}`$ to build only $0 \le k \le L/2$).
+
 ## Outcome
-
-The even seed length $n_0 = 6$ (requiring complete spectra of $6$- and $12$-site rings, with maximum sector dimension $352$ at $L = 12$) produced admissible seeds at all 30 grid points $(g, h)$, certifying uniform spectral gaps across the entire parameter grid without needing larger rings (see [`README.md`](README.md)).
-
-The route was later re-implemented on the shared core (`RingModel` in the physical frame, `certify_gap` per point) at the same seeds; the core enclosures are tighter, so every seed defect decreased and all 30 points remain certified (see [`METHOD.md`](METHOD.md)).
 
 The November 2026 portability audit found that correcting only `log1p`, or only `log1p`
 and `expm1`, did not restore ordinary checker replay on aarch64. The expanded local MPFR
@@ -64,3 +60,7 @@ helper reproduces all 30 stored interval bounds exactly, without changing a cert
 its model-local source hashes. The longitudinal-Ising tests also pass a fresh spectral replay
 at $g = 1$, $h = 1/20$. This is a mitigation of the shared pipeline: it neither diagnoses
 the native library's rounding failure nor validates model-specific calls outside the helper.
+
+The even seed length $n_0 = 6$ (requiring complete spectra of $6$- and $12$-site rings, with maximum sector dimension $352$ at $L = 12$) produced admissible seeds at all 30 grid points $(g, h)$, certifying uniform spectral gaps across the entire parameter grid without needing larger rings (see [`README.md`](README.md)).
+
+The route was later re-implemented on the shared core (`RingModel` in the physical frame, `certify_gap` per point) at the same seeds; the core enclosures are tighter, so every seed defect decreased and all 30 points remain certified (see [`METHOD.md`](METHOD.md)).
